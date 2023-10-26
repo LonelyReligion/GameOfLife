@@ -20,49 +20,24 @@ public class GameOfLife {
      * @param args arguments
      */
     public static void main(String[] args) {
-        View view = new View();
+        GridView view = new GridView();
+        Grid model = new Grid();
         
-        String tmp = "";
-        for(var argument : args){
-            tmp += argument;
+        GridController controller = new GridController(model, view);
+        
+        int w, h = 20;
+        if(args.length >1){
+            w = Integer.parseInt(args[0]); //exception!
+            h = Integer.parseInt(args[1]); //exception!
         }
-        
-        if("".equals(tmp))
-        {
+        else{
             Scanner scanner = new Scanner(System.in);
-            view.print("What's your name?");
-            tmp = scanner.next();     
+            System.out.print("Width:");
+            w = Integer.parseInt(scanner.next()); //exception! 
+            System.out.print("Height:");
+            h = Integer.parseInt(scanner.next()); //exception!
         }
-        view.print("Hello " + tmp);
-        
-        view.print("GUIDE");
-        
-        //will be in view
-        view.print("SIZE OF THE GRID");
-        Scanner scanner = new Scanner(System.in);
-        view.print("HEIGHT OF THE GRID: ");
-        
-        //problem z wpisywaniem
-/**
- *         int wysokosc = 0;
-        tmp = scanner.next();
-        if(tmp.matches("\\d")){
-            wysokosc = Integer.parseInt(tmp);
-        }    
-        
-        int szerokosc = 0;
-        tmp = scanner.next();
-        if(tmp.matches("\\d")){
-            szerokosc = Integer.parseInt(tmp);
-        }
-        
-        if(wysokosc != 0 && szerokosc != 0){
-            Plansza nowa = new Plansza(wysokosc, szerokosc);
-        }
- */
-        
-        view.print("SETTING INITIAL STRUCTURE");
-        view.print("SIMULATION");
-        view.print("ESC");
+        controller.setGridDims(w, h);
+        controller.updateView();
     }
 }

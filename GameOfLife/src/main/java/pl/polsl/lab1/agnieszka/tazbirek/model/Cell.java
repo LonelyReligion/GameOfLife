@@ -13,4 +13,12 @@ public class Cell {
      * Binary value representing cell's state (1 - alive, 0 - dead)
      */
     boolean alive;
+    
+    public Cell(){
+        this.alive = false;
+    };
+    
+    public void setAlive(boolean alive){
+        this.alive = alive;
+    };
 }

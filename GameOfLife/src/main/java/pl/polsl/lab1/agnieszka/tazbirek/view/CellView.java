@@ -6,14 +6,8 @@ package pl.polsl.lab1.agnieszka.tazbirek.view;
 
 /**
  *
- * @author Agnieszka Tażbirek
+ * @author User
  */
-
-/**
- * View class is managing displaying things on the monitor.
- */
-public class View { //interface?
-    public void print(String text){
-        System.out.println(text);
-    }
+public class CellView {
+    
 }

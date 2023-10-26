@@ -12,7 +12,7 @@ public class Grid {
     /**
      * Set of cells on 2D grid
      */
-    private Cell[][] Komorki;
+    private Cell[][] Cells;
     
     /**
      * Two-argument constructor
@@ -20,7 +20,7 @@ public class Grid {
      * @param width - width of the grid
      */
     public Grid(int height, int width){
-        Komorki = new Cell[height][width];
+        Cells = new Cell[height][width];
     };
     
      /**
@@ -28,7 +28,6 @@ public class Grid {
      * Height and width default values are both set to 20.
      */
     public Grid(){
-        Komorki = new Cell[20][20];
-    };
-    
+        Cells = new Cell[20][20];
+    };  
 }
