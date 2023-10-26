@@ -21,4 +21,8 @@ public class Cell {
     public void setAlive(boolean alive){
         this.alive = alive;
     };
+    
+    public boolean getAlive(){
+        return alive;
+    };
 }

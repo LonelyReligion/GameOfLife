@@ -21,13 +21,16 @@ public class Grid {
      */
     public Grid(int height, int width){
         Cells = new Cell[height][width];
-    };
+        
+        for(int i = 0; i < Cells.length; i++){
+            for(int j = 0; j < Cells[i].length; j++){
+                Cells[i][j] = new Cell();
+            };
+        };
+        
+    }; 
     
-     /**
-     * One-argument constructor 
-     * Height and width default values are both set to 20.
-     */
-    public Grid(){
-        Cells = new Cell[20][20];
-    };  
+    public Cell[][] getCells(){
+        return Cells;
+    };
 }

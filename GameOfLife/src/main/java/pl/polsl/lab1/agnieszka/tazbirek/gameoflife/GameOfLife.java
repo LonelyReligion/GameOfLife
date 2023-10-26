@@ -17,13 +17,10 @@ public class GameOfLife {
     /**
      * Main loop of the project.
      * 
-     * @param args arguments
+     * @param args height and width of a grid
      */
     public static void main(String[] args) {
         GridView view = new GridView();
-        Grid model = new Grid();
-        
-        GridController controller = new GridController(model, view);
         
         int w, h = 20;
         if(args.length >1){
@@ -37,7 +34,11 @@ public class GameOfLife {
             System.out.print("Height:");
             h = Integer.parseInt(scanner.next()); //exception!
         }
-        controller.setGridDims(w, h);
+        System.out.print("\n");
+        
+        Grid model = new Grid(w, h);
+        GridController controller = new GridController(model, view);
+        
         controller.updateView();
     }
 }

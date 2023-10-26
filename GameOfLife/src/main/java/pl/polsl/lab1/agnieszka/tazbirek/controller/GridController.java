@@ -19,7 +19,7 @@ public class GridController {
         this.view = view;
     };
     
-    public void setGridDims(int width, int height){
-        model.setDims(width, height);
+    public void updateView(){
+        view.printGrid(model.getCells()); 
     };
 }
