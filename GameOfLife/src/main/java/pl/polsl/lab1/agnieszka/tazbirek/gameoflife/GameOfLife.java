@@ -20,8 +20,6 @@ public class GameOfLife {
      * @param args height and width of a grid
      */
     public static void main(String[] args) {
-        GridView view = new GridView();
-        
         int w, h = 20;
         if(args.length >1){
             w = Integer.parseInt(args[0]); //exception!
@@ -36,9 +34,35 @@ public class GameOfLife {
         }
         System.out.print("\n");
         
-        Grid model = new Grid(w, h);
-        GridController controller = new GridController(model, view);
+        GridController controller = new GridController(w, h);
         
+        controller.updateView();
+        
+        System.out.print("Set the initial pattern by providing coordinates of live cells. \nWhen you are done simply type start.");
+        Scanner scanner = new Scanner(System.in);
+        boolean escape = false;
+        while(!escape){
+            System.out.print("\ny:");
+            String input = scanner.next();
+            if("start".equals(input)){
+                escape = true;
+            }else{
+                int i = Integer.parseInt(input); //exception! 
+                System.out.print("x:");
+                input = scanner.next();
+                if("start".equals(input)){
+                    escape = true;
+                } else{
+                    int j = Integer.parseInt(input); //exception!
+                    controller.setGridCellAlive(i, j, true);
+                    controller.updateView();
+                };
+                System.out.print("\n");
+            };  
+        };
+        
+        controller.step();
+        controller.clearView();
         controller.updateView();
     }
 }

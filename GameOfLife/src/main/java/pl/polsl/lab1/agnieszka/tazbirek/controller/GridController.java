@@ -8,18 +8,30 @@ import pl.polsl.lab1.agnieszka.tazbirek.model.Grid;
 import pl.polsl.lab1.agnieszka.tazbirek.view.GridView;
 /**
  *
- * @author User
+ * @author Agnieszka Tażbirek
  */
 public class GridController {
     private Grid model;  
     private GridView view;  
     
-    public GridController(Grid model, GridView view){
-        this.model = model;
-        this.view = view;
+    public GridController(int width, int height){
+        this.model = new Grid(width, height);
+        this.view = new GridView();
+    };
+    
+    public void setGridCellAlive(int i, int j, boolean alive){
+        model.setCellAlive(i, j, alive);
     };
     
     public void updateView(){
         view.printGrid(model.getCells()); 
+    };
+    
+    public void clearView(){
+        view.clearView();
+    };
+    
+    public void step(){
+        model.step();
     };
 }

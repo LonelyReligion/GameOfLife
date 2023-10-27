@@ -14,6 +14,7 @@ import pl.polsl.lab1.agnieszka.tazbirek.model.Cell;
  * View class is managing displaying things on the monitor.
  */
 public class GridView {
+    
     public void printGrid(Cell[][] Cells){
         for(int i = 0; i < Cells.length; i++){
             for(int j = 0; j < Cells[i].length; j++){
@@ -25,6 +26,10 @@ public class GridView {
             }
             System.out.print("\n");
         }
-    }
+    };
+    
+    public void clearView(){
+        System.out.print("\n\n\n");
+    };
 
 }
