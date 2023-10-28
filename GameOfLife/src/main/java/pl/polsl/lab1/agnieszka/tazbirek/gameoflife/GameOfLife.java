@@ -5,9 +5,12 @@
 package pl.polsl.lab1.agnieszka.tazbirek.gameoflife;
 
 import java.util.Scanner;
-import pl.polsl.lab1.agnieszka.tazbirek.view.*;
+import java.util.concurrent.TimeUnit;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import pl.polsl.lab1.agnieszka.tazbirek.controller.*;
-import pl.polsl.lab1.agnieszka.tazbirek.model.*;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 
 /**
  *
@@ -21,6 +24,7 @@ public class GameOfLife {
      */
     public static void main(String[] args) {
         int w, h = 20;
+        
         if(args.length >1){
             w = Integer.parseInt(args[0]); //exception!
             h = Integer.parseInt(args[1]); //exception!
@@ -56,13 +60,25 @@ public class GameOfLife {
                     int j = Integer.parseInt(input); //exception!
                     controller.setGridCellAlive(i, j, true);
                     controller.updateView();
-                };
+                }
                 System.out.print("\n");
-            };  
-        };
+            }
+        }
         
-        controller.step();
-        controller.clearView();
-        controller.updateView();
+        System.out.print("How many frames of simulation would you like played out for you?\n");
+        String tmp = scanner.next();
+        int howLong = Integer.parseInt(tmp); //exception!
+        
+        for(int i = 0; i < howLong; i++){
+            controller.step();
+            controller.clearView();
+            controller.updateView();
+            try {
+                TimeUnit.SECONDS.sleep(1);
+            } catch (InterruptedException ex) {
+                Logger.getLogger(GameOfLife.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
     }
 }
+

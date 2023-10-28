@@ -41,28 +41,35 @@ public class Grid {
     };
     
     public void step(){
+        int[][] neighbors_array = new int[Cells.length][Cells[0].length];
         for(int i = 0; i < Cells.length; i++){
             for(int j = 0; j < Cells[0].length; j++){
-               if(Cells[i][j].getAlive() && (this.getNumberOfNeighbors(i, j) < 2 || this.getNumberOfNeighbors(i, j) > 3)){
+                neighbors_array[i][j] = this.getNumberOfNeighbors(i, j);
+            }   
+        }
+        for(int i = 0; i < Cells.length; i++){
+            for(int j = 0; j < Cells[0].length; j++){
+               int neighbors = neighbors_array[i][j];
+               if(Cells[i][j].getAlive() && (neighbors < 2 || neighbors > 3)){
                     Cells[i][j].setAlive(false);
-               };
-               
-               if(!Cells[i][j].getAlive() && this.getNumberOfNeighbors(i, j) == 3) {
+               }else if(!Cells[i][j].getAlive() && neighbors == 3) {
                     Cells[i][j].setAlive(true);
-               };
-            };
-        };
-    };
+               }
+            }
+        }
+    }
     
     public int getNumberOfNeighbors(int i, int j){
         int count = 0; 
         for(int col = i - 1; col <= i+1; col++){
             for(int row = j - 1; row <= j+1; row++){
-                if(!(col < 0) && !(row < 0) && col != Cells[0].length && row != Cells.length && Cells[row][col].getAlive()){
+                boolean inBounds = !(col < 0) && !(row < 0) && col != Cells[0].length && row != Cells.length;
+                boolean notTheSame = (row != j || col != i);
+                if( inBounds && notTheSame && Cells[col][row].getAlive()){
                     count++;
-                };
-            };
-        };
+                }
+            }
+        }
         return count;
-    }
+    };
 }
