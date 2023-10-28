@@ -3,6 +3,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
 package pl.polsl.lab1.agnieszka.tazbirek.model;
+import pl.polsl.lab1.agnieszka.tazbirek.exception.InvalidDimensionsException;
 
 /**
  *
@@ -14,6 +15,20 @@ public class Grid {
      */
     private Cell[][] Cells;
     
+     /**
+     * One-argument constructor 
+     * Height and width default values are both set to 20.
+     */
+    public Grid(){
+        Cells = new Cell[20][20];
+        
+        for(int i = 0; i < Cells.length; i++){
+            for(int j = 0; j < Cells[i].length; j++){
+                Cells[i][j] = new Cell();
+            }
+        }
+    };  
+        
     /**
      * Two-argument constructor
      * @param height - height of the grid
@@ -25,8 +40,8 @@ public class Grid {
         for(int i = 0; i < Cells.length; i++){
             for(int j = 0; j < Cells[i].length; j++){
                 Cells[i][j] = new Cell();
-            };
-        };
+            }
+        }
         
     }; 
     
@@ -37,7 +52,7 @@ public class Grid {
     public void setCellAlive(int i, int j, boolean alive){
        if(i < Cells.length && j < Cells[0].length){
             Cells[i][j].setAlive(alive);
-       };
+       }
     };
     
     public void step(){
@@ -57,7 +72,7 @@ public class Grid {
                }
             }
         }
-    }
+    };
     
     public int getNumberOfNeighbors(int i, int j){
         int count = 0; 
@@ -71,5 +86,17 @@ public class Grid {
             }
         }
         return count;
+    };
+    
+    public void setDims(int w, int h) throws InvalidDimensionsException {
+        if(w <= 0 || h <= 0){
+            throw new InvalidDimensionsException("The Grid cannot have a dimension that has a value of 0 or less.");
+        }
+        Cells = new Cell[w][h];
+        for(int i = 0; i < Cells.length; i++){
+            for(int j = 0; j < Cells[i].length; j++){
+                Cells[i][j] = new Cell();
+            }
+        }
     };
 }
