@@ -1,8 +1,13 @@
+pl\polsl\lab1\agnieszka\tazbirek\gameoflife\package-info.class
+pl\polsl\lab1\agnieszka\tazbirek\model\Grid.class
+pl\polsl\lab1\agnieszka\tazbirek\exception\InvalidDimensionsException.class
+pl\polsl\lab1\agnieszka\tazbirek\controller\GridController.class
+pl\polsl\lab1\agnieszka\tazbirek\controller\package-info.class
+pl\polsl\lab1\agnieszka\tazbirek\view\CellView.class
+pl\polsl\lab1\agnieszka\tazbirek\model\package-info.class
 pl\polsl\lab1\agnieszka\tazbirek\model\Cell.class
 pl\polsl\lab1\agnieszka\tazbirek\view\GridView.class
 pl\polsl\lab1\agnieszka\tazbirek\gameoflife\GameOfLife.class
 pl\polsl\lab1\agnieszka\tazbirek\controller\CellController.class
-pl\polsl\lab1\agnieszka\tazbirek\model\Grid.class
-pl\polsl\lab1\agnieszka\tazbirek\exception\InvalidDimensionsException.class
-pl\polsl\lab1\agnieszka\tazbirek\controller\GridController.class
-pl\polsl\lab1\agnieszka\tazbirek\view\CellView.class
+pl\polsl\lab1\agnieszka\tazbirek\exception\package-info.class
+pl\polsl\lab1\agnieszka\tazbirek\view\package-info.class

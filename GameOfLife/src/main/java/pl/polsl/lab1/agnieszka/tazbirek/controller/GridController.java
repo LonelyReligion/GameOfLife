@@ -6,64 +6,97 @@ package pl.polsl.lab1.agnieszka.tazbirek.controller;
 
 import java.util.Scanner;
 import java.util.concurrent.TimeUnit;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+
 import pl.polsl.lab1.agnieszka.tazbirek.exception.InvalidDimensionsException;
-import pl.polsl.lab1.agnieszka.tazbirek.gameoflife.GameOfLife;
 import pl.polsl.lab1.agnieszka.tazbirek.model.Grid;
 import pl.polsl.lab1.agnieszka.tazbirek.view.GridView;
 /**
- *
+ * Controller class for the Grid class from models. 
  * @author Agnieszka Tażbirek
+ * @version 1.0
  */
 public class GridController {
-    private Grid model;  
+    /** Grid object we are taking control of. */
+    private Grid model;
+    /** GridView we are using to display communicates. */
     private GridView view;  
+    /** Number of frames user wants to display. */
     private int howLong;
     
-    public GridController(int width, int height){
-        this.model = new Grid(width, height);
+    /**
+     * Two-argument constructor for the class.
+     * @param width - number of cells in every row
+     * @param height - number of cells in each column
+     */
+    public GridController(int height, int width){
+        this.model = new Grid(height, width);
         this.view = new GridView();
     };
     
+    /**
+     * Zero-argument constructor. Model and view are created as well.
+     */
     public GridController(){
         this.model = new Grid();
         this.view = new GridView();
     };
-        
+    
+    /**
+     * Sets cell in the (j, i) position alive filed to passed boolean.
+     * @param i  y position on the model grid
+     * @param j  x position on the model grid
+     * @param alive - the boolean value that the alive field of the cell will be set to.
+     */
     public void setGridCellAlive(int i, int j, boolean alive){
         model.setCellAlive(i, j, alive);
     };
     
+    /**
+     * Shows the grid.
+     */
     public void updateView(){
         view.printGrid(model.getCells()); 
     };
     
+    /**
+     * Clears the view.
+     */
     public void clearView(){
         view.clearView();
     };
     
+    /**
+     * Applies the algorithm for deciding which cells are alive and which are not in the next gen.
+     */
     public void step(){
         model.step();
     };
     
-    public void setGridDims(int w, int h){
+    /**
+     * Sets dimensions for the grid.
+     * @param height of the grid
+     * @param width of the grid
+     */
+    public void setGridDims(int height, int width){
         try{
-            model.setDims(w, h);
+            model.setDims(height, width);
         } catch(final InvalidDimensionsException e){
             view.displayMessage("You provided invalid dimensions. Dimensions will not be changed.");
         }
     };
     
+    /**
+     * Asks user for the desired dimensions of the grid.
+     */
     public void setGridDims(){
         Scanner scanner = new Scanner(System.in);
         try{
             view.displayMessage("Width:");
-            int w = Integer.parseInt(scanner.next());
+            int height = Integer.parseInt(scanner.next());
             view.displayMessage("Height:");
-            int h = Integer.parseInt(scanner.next());
+            int width = Integer.parseInt(scanner.next());
             try{
-                model.setDims(w, h);
+                model.setDims(height, width);
             } catch(final InvalidDimensionsException e){
                 view.displayMessage("You provided invalid dimensions. Dimensions will not be changed.");
             }
@@ -73,10 +106,17 @@ public class GridController {
         }
     };
     
+    /**
+     * Displays passed string on the screen.
+     * @param message displayed string
+     */
     public void displayMessage(String message){
         view.displayMessage(message);
     };
     
+    /**
+     * Asks user for the coordinates of live cells for the first stage until user writes start.  
+     */
     public void setGridInitialPattern(){
         view.displayMessage("Set the initial pattern by providing coordinates of live cells. \nWhen you are done simply type start.");
         Scanner scanner = new Scanner(System.in);
@@ -106,6 +146,9 @@ public class GridController {
         }
     };
     
+    /**
+     * Executes howLong number of steps.
+     */
     public void play(){
             for(int i = 0; i < howLong; i++){
             model.step();
@@ -119,6 +162,9 @@ public class GridController {
         }
     };
     
+    /**
+     * Asks user how many frames should be displayed.
+     */
     public void simulationSettings(){
         Scanner scanner = new Scanner(System.in);
         view.displayMessage("How many frames of simulation would you like played out for you?\n");

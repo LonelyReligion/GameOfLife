@@ -1,0 +1,48 @@
+@options
+@packages
+-encoding
+'UTF-8'
+-protected
+-source
+'17'
+-sourcepath
+'C:/Users/User/Desktop/PROGRAMOWANIE/java/GameOfLife/GameOfLife/GameOfLife/src/main/java'
+-author
+-bottom
+'Copyright &#169; 2023. All rights reserved.'
+-charset
+'UTF-8'
+-d
+'C:/Users/User/Desktop/PROGRAMOWANIE/java/GameOfLife/GameOfLife/GameOfLife/target/site/apidocs'
+-docencoding
+'UTF-8'
+-doctitle
+'GameOfLife 1.0-SNAPSHOT API'
+-use
+-version
+-windowtitle
+'GameOfLife 1.0-SNAPSHOT API'
+pl.polsl.lab1.agnieszka.tazbirek.controller
+pl.polsl.lab1.agnieszka.tazbirek.exception
+pl.polsl.lab1.agnieszka.tazbirek.gameoflife
+pl.polsl.lab1.agnieszka.tazbirek.model
+pl.polsl.lab1.agnieszka.tazbirek.view
+C:\Users\User\Desktop\PROGRAMOWANIE\java\GameOfLife\GameOfLife\GameOfLife\src\main\java = 1697462744752
+C:\Users\User\Desktop\PROGRAMOWANIE\java\GameOfLife\GameOfLife\GameOfLife\target\site\apidocs\allclasses-index.html = 1698753853171
+C:\Users\User\Desktop\PROGRAMOWANIE\java\GameOfLife\GameOfLife\GameOfLife\target\site\apidocs\allpackages-index.html = 1698753853175
+C:\Users\User\Desktop\PROGRAMOWANIE\java\GameOfLife\GameOfLife\GameOfLife\target\site\apidocs\element-list = 1698753853043
+C:\Users\User\Desktop\PROGRAMOWANIE\java\GameOfLife\GameOfLife\GameOfLife\target\site\apidocs\help-doc.html = 1698753853203
+C:\Users\User\Desktop\PROGRAMOWANIE\java\GameOfLife\GameOfLife\GameOfLife\target\site\apidocs\index-all.html = 1698753853197
+C:\Users\User\Desktop\PROGRAMOWANIE\java\GameOfLife\GameOfLife\GameOfLife\target\site\apidocs\index.html = 1698753853158
+C:\Users\User\Desktop\PROGRAMOWANIE\java\GameOfLife\GameOfLife\GameOfLife\target\site\apidocs\jquery-ui.overrides.css = 1698753853216
+C:\Users\User\Desktop\PROGRAMOWANIE\java\GameOfLife\GameOfLife\GameOfLife\target\site\apidocs\member-search-index.js = 1698753853179
+C:\Users\User\Desktop\PROGRAMOWANIE\java\GameOfLife\GameOfLife\GameOfLife\target\site\apidocs\module-search-index.js = 1698753853179
+C:\Users\User\Desktop\PROGRAMOWANIE\java\GameOfLife\GameOfLife\GameOfLife\target\site\apidocs\overview-summary.html = 1698753853199
+C:\Users\User\Desktop\PROGRAMOWANIE\java\GameOfLife\GameOfLife\GameOfLife\target\site\apidocs\overview-tree.html = 1698753853151
+C:\Users\User\Desktop\PROGRAMOWANIE\java\GameOfLife\GameOfLife\GameOfLife\target\site\apidocs\package-search-index.js = 1698753853179
+C:\Users\User\Desktop\PROGRAMOWANIE\java\GameOfLife\GameOfLife\GameOfLife\target\site\apidocs\script.js = 1698753853206
+C:\Users\User\Desktop\PROGRAMOWANIE\java\GameOfLife\GameOfLife\GameOfLife\target\site\apidocs\search.js = 1698753853208
+C:\Users\User\Desktop\PROGRAMOWANIE\java\GameOfLife\GameOfLife\GameOfLife\target\site\apidocs\serialized-form.html = 1698753853095
+C:\Users\User\Desktop\PROGRAMOWANIE\java\GameOfLife\GameOfLife\GameOfLife\target\site\apidocs\stylesheet.css = 1698753853205
+C:\Users\User\Desktop\PROGRAMOWANIE\java\GameOfLife\GameOfLife\GameOfLife\target\site\apidocs\tag-search-index.js = 1698753853183
+C:\Users\User\Desktop\PROGRAMOWANIE\java\GameOfLife\GameOfLife\GameOfLife\target\site\apidocs\type-search-index.js = 1698753853179

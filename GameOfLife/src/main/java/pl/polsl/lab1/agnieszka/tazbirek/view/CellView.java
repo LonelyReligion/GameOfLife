@@ -5,8 +5,9 @@
 package pl.polsl.lab1.agnieszka.tazbirek.view;
 
 /**
- *
- * @author User
+ * View class for the cell class.
+ * @author Agnieszka Tażbirek
+ * @version 1.0
  */
 public class CellView {
     

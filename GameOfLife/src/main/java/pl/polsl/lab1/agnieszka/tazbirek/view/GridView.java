@@ -6,15 +6,15 @@ package pl.polsl.lab1.agnieszka.tazbirek.view;
 import pl.polsl.lab1.agnieszka.tazbirek.model.Cell;
 
 /**
- *
+ * This view class is managing displaying things on behalf of the GridController.
  * @author Agnieszka Tażbirek
- */
-
- /**
- * View class is managing displaying things on the monitor.
+ * @version 1.0
  */
 public class GridView {
-    
+    /**
+     * Prints Cells (live cells as x and dead as -) alongside axis labels. 
+     * @param Cells - current grids Cells field
+     */
     public void printGrid(Cell[][] Cells){
         System.out.print("    ");
         for(int j = 0; j < Cells[0].length; j++){
@@ -44,10 +44,17 @@ public class GridView {
         }
     };
     
+    /**
+     * Prints three new lines for readability.
+     */
     public void clearView(){
         System.out.print("\n\n\n");
     };
     
+    /**
+     * Prints provided string.
+     * @param message - string to be printed
+     */
     public void displayMessage(String message){
         System.out.print(message);
     };

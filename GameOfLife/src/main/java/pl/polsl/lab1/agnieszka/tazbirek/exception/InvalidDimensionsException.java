@@ -5,8 +5,9 @@
 package pl.polsl.lab1.agnieszka.tazbirek.exception;
 
 /**
- *
+ * Exception class for objects thrown when attempting to set invalid (0 or less) dimensions for the grid.
  * @author Agnieszka Tażbirek
+ * @version 1.0
  */
 public class InvalidDimensionsException extends Exception {
     /**

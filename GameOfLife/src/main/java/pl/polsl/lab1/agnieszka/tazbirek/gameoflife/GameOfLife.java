@@ -8,14 +8,15 @@ import pl.polsl.lab1.agnieszka.tazbirek.controller.*;
 
 
 /**
- *
+ * Main class of the application realizing the console implementation of Conway's Game of Life. 
  * @author Agnieszka Tażbirek
+ * @version 1.0
  */
 public class GameOfLife {
     /**
      * Main loop of the project.
      * 
-     * @param args height and width of a grid
+     * @param args first argument - height of a grid, second argument - width of a grid
      */
     public static void main(String[] args) {
         GridController controller = new GridController();

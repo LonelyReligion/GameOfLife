@@ -5,8 +5,9 @@
 package pl.polsl.lab1.agnieszka.tazbirek.model;
 
 /**
- *
+ * Class representing the cell on a grid in the game.
  * @author Agnieszka Tażbirek
+ * @version 1.0
  */
 public class Cell {
     /**
@@ -14,14 +15,25 @@ public class Cell {
      */
     boolean alive;
     
+    /**
+     * Zero-argument constructor setting alive field to false.
+     */
     public Cell(){
         this.alive = false;
     };
     
+    /**
+     * Sets field alive to boolean value.
+     * @param alive value that alive field will be set to
+     */
     public void setAlive(boolean alive){
         this.alive = alive;
     };
     
+    /**
+     * Returns the value of alive field
+     * @return value of alive field
+     */
     public boolean getAlive(){
         return alive;
     };

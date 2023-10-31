@@ -1,0 +1,1 @@
+packageSearchIndex = [{"l":"All Packages","u":"allpackages-index.html"},{"l":"pl.polsl.lab1.agnieszka.tazbirek.controller"},{"l":"pl.polsl.lab1.agnieszka.tazbirek.exception"},{"l":"pl.polsl.lab1.agnieszka.tazbirek.gameoflife"},{"l":"pl.polsl.lab1.agnieszka.tazbirek.model"},{"l":"pl.polsl.lab1.agnieszka.tazbirek.view"}];updateSearchResults();
