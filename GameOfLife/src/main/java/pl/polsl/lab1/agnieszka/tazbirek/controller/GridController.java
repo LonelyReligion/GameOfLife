@@ -55,7 +55,7 @@ public class GridController {
      * Shows the grid.
      */
     public void updateView(){
-        view.printGrid(model.getCells()); 
+        view.printGrid(model.getCells(), model.getWidth(), model.getHeight()); 
     };
     
     /**
@@ -136,7 +136,7 @@ public class GridController {
                     } else{
                         int j = Integer.parseInt(input); //exception!
                         model.setCellAlive(i, j, true);
-                        view.printGrid(model.getCells());
+                        view.printGrid(model.getCells(), model.getWidth(), model.getHeight());
                     }
                 } catch(final NumberFormatException e){
                     view.displayMessage("You provided incorrect information. Try again.");
@@ -153,7 +153,7 @@ public class GridController {
             for(int i = 0; i < howLong; i++){
             model.step();
             view.clearView();
-            view.printGrid(model.getCells());
+            view.printGrid(model.getCells(), model.getWidth(), model.getHeight());
             try {
                 TimeUnit.SECONDS.sleep(1);
             } catch (InterruptedException ex) {

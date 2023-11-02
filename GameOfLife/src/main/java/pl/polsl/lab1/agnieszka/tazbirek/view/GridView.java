@@ -3,6 +3,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
 package pl.polsl.lab1.agnieszka.tazbirek.view;
+import java.util.ArrayList;
 import pl.polsl.lab1.agnieszka.tazbirek.model.Cell;
 
 /**
@@ -15,20 +16,20 @@ public class GridView {
      * Prints Cells (live cells as x and dead as -) alongside axis labels. 
      * @param Cells - current grids Cells field
      */
-    public void printGrid(Cell[][] Cells){
+    public void printGrid(ArrayList<ArrayList<Cell>> Cells, int width, int height){
         System.out.print("    ");
-        for(int j = 0; j < Cells[0].length; j++){
+        for(int j = 0; j < width; j++){
             System.out.print(j + "  ");
         }
         System.out.print("\n");
         
-        for(int i = 0; i < Cells.length; i++){
+        for(int i = 0; i < height; i++){
             if(i < 10)
                 System.out.print(i + "  ");
             else
                 System.out.print(i + " ");
-            for(int j = 0; j < Cells[i].length; j++){
-                if(Cells[i][j].getAlive()){
+            for(int j = 0; j < width; j++){
+                if(Cells.get(i).get(j).getAlive()){
                     if(j > 9)
                         System.out.print(" x  ");
                     else
@@ -38,7 +39,7 @@ public class GridView {
                         System.out.print(" -  ");
                     else
                         System.out.print(" - ");
-                };    
+                }    
             }
             System.out.print("\n");
         }

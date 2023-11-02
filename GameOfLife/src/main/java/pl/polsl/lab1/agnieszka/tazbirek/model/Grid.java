@@ -3,6 +3,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
 package pl.polsl.lab1.agnieszka.tazbirek.model;
+import java.util.ArrayList;
 import pl.polsl.lab1.agnieszka.tazbirek.exception.InvalidDimensionsException;
 
 /**
@@ -14,33 +15,34 @@ public class Grid {
     /**
      * Set of cells on 2D grid
      */
-    private Cell[][] Cells;
-    
+    private ArrayList<ArrayList<Cell>> Cells = new ArrayList<>();
+    private int Height = 20;
+    private int Width = 20;
      /**
      * Zero-argument constructor 
-     * Height and width default values are both set to 20.
+ Height and Width default values are both set to 20.
      */
     public Grid(){
-        Cells = new Cell[20][20];
-        
-        for(int i = 0; i < Cells.length; i++){
-            for(int j = 0; j < Cells[i].length; j++){
-                Cells[i][j] = new Cell();
+        for(int i = 0; i < Height; i++){
+            Cells.add(new ArrayList<Cell>());
+            for(int j = 0; j < Width; j++){
+                Cells.get(i).add(new Cell());
             }
         }
     };  
         
     /**
      * Two-argument constructor
-     * @param height height of the grid
-     * @param width width of the grid
+     * @param height Height of the grid
+     * @param width Width of the grid
      */
     public Grid(int height, int width){
-        Cells = new Cell[height][width];
+        this.Height = height;
+        this.Width = width;
         
-        for(int i = 0; i < Cells.length; i++){
-            for(int j = 0; j < Cells[i].length; j++){
-                Cells[i][j] = new Cell();
+        for(int i = 0; i < height; i++){
+            for(int j = 0; j < width; j++){
+                Cells.get(i).add(new Cell());
             }
         }
         
@@ -50,7 +52,7 @@ public class Grid {
      * Returns value of Cells field.
      * @return value of Cells field
      */
-    public Cell[][] getCells(){
+    public ArrayList<ArrayList<Cell>> getCells(){
         return Cells;
     };
     
@@ -61,8 +63,8 @@ public class Grid {
      * @param alive - the boolean value that the alive field of the cell will be set to.
      */
     public void setCellAlive(int i, int j, boolean alive){
-       if(i < Cells.length && j < Cells[0].length){
-            Cells[i][j].setAlive(alive);
+       if(i < Height && j < Width){
+            Cells.get(i).get(j).setAlive(alive);
        }
     };
     
@@ -70,19 +72,20 @@ public class Grid {
      * Applies the algorithm for deciding which cells are alive and which are not in the next gen.
      */
     public void step(){
-        int[][] neighbors_array = new int[Cells.length][Cells[0].length];
-        for(int i = 0; i < Cells.length; i++){
-            for(int j = 0; j < Cells[0].length; j++){
-                neighbors_array[i][j] = this.getNumberOfNeighbors(i, j);
+        ArrayList<ArrayList<Integer>> neighbors_array = new ArrayList<>();
+        for(int i = 0; i < Height; i++){
+            neighbors_array.add(new ArrayList<Integer>());
+            for(int j = 0; j < Width; j++){
+                neighbors_array.get(i).add(this.getNumberOfNeighbors(i, j));
             }   
         }
-        for(int i = 0; i < Cells.length; i++){
-            for(int j = 0; j < Cells[0].length; j++){
-               int neighbors = neighbors_array[i][j];
-               if(Cells[i][j].getAlive() && (neighbors < 2 || neighbors > 3)){
-                    Cells[i][j].setAlive(false);
-               }else if(!Cells[i][j].getAlive() && neighbors == 3) {
-                    Cells[i][j].setAlive(true);
+        for(int i = 0; i < Height; i++){
+            for(int j = 0; j < Width; j++){
+               int neighbors = neighbors_array.get(i).get(j);
+               if(Cells.get(i).get(j).getAlive() && (neighbors < 2 || neighbors > 3)){
+                    Cells.get(i).get(j).setAlive(false);
+               }else if(!Cells.get(i).get(j).getAlive() && neighbors == 3) {
+                    Cells.get(i).get(j).setAlive(true);
                }
             }
         }
@@ -98,9 +101,9 @@ public class Grid {
         int count = 0; 
         for(int row = i - 1; row <= i+1; row++){
             for(int col = j - 1; col <= j+1; col++){
-                boolean inBounds = !(row < 0) && !(col < 0) && col != Cells[0].length && row != Cells.length;
+                boolean inBounds = !(row < 0) && !(col < 0) && col != Width && row != Height;
                 boolean notTheSame = (col != j || row != i);
-                if( inBounds && notTheSame && Cells[row][col].getAlive()){
+                if( inBounds && notTheSame && Cells.get(row).get(col).getAlive()){
                     count++;
                 }
             }
@@ -110,19 +113,29 @@ public class Grid {
     
     /**
      * Sets dimensions for the grid.
-     * @param width width of the grid
-     * @param height height of the grid
+     * @param width Width of the grid
+     * @param height Height of the grid
      * @throws pl.polsl.lab1.agnieszka.tazbirek.exception.InvalidDimensionsException when dimensions are lesser or equal 0
      */
     public void setDims(int height, int width) throws InvalidDimensionsException {
         if(height <= 0 || width <= 0){
             throw new InvalidDimensionsException("The Grid cannot have a dimension that has a value of 0 or less.");
         }
-        Cells = new Cell[height][width];
-        for(int i = 0; i < Cells.length; i++){
-            for(int j = 0; j < Cells[i].length; j++){
-                Cells[i][j] = new Cell();
+        this.Height = height;
+        this.Width = width;
+        
+        for(int i = 0; i < height; i++){
+            for(int j = 0; j < width; j++){
+                Cells.get(i).add(new Cell());
             }
         }
     };
+    
+    public int getWidth(){
+        return Width;
+    }
+    
+    public int getHeight(){
+        return Height;
+    }
 }
