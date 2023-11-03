@@ -5,38 +5,87 @@
 package pl.polsl.lab1.agnieszka.tazbirek.model;
 
 import java.util.ArrayList;
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.AfterAll;
-import org.junit.jupiter.api.BeforeEach;
+import java.util.LinkedList;
+import java.util.stream.Stream;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.*;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.*;
+import static org.junit.jupiter.params.provider.Arguments.arguments;
+import org.junit.platform.commons.util.StringUtils;
+import pl.polsl.lab1.agnieszka.tazbirek.exception.InvalidDimensionsException;
+import pl.polsl.lab1.agnieszka.tazbirek.model.Cell;
 
 /**
  *
- * @author User
+ * @author user
  */
 public class GridTest {
-    private Grid grid;
     
     public GridTest() {
     }
     
-    @BeforeEach
-    public void setUp() {
-        grid = new Grid();
+    private static Stream<Arguments> listProvider(){
+        return Stream.of(
+            arguments(
+            new ArrayList<ArrayList<Cell>>(){{
+                add(new ArrayList<Cell>(){{add(new Cell()); add(new Cell(true)); add(new Cell());}});
+                add(new ArrayList<Cell>(){{add(new Cell()); add(new Cell(true)); add(new Cell());}});
+                add(new ArrayList<Cell>(){{add(new Cell()); add(new Cell(true)); add(new Cell());}});
+            }},
+            new ArrayList<ArrayList<Cell>>(){{
+                add(new ArrayList<Cell>(){{add(new Cell()); add(new Cell()); add(new Cell());}});
+                add(new ArrayList<Cell>(){{add(new Cell(true)); add(new Cell(true)); add(new Cell(true));}});
+                add(new ArrayList<Cell>(){{add(new Cell()); add(new Cell()); add(new Cell());}});
+            }}
+            )
+        );
     }
-
     /**
      * Test of step method, of class Grid.
      */
-    @Test
-    public void testStep() {
+    @ParameterizedTest
+    @MethodSource("listProvider")
+    public void testStep(ArrayList<ArrayList<Cell>> Cells, ArrayList<ArrayList<Cell>> ExpectedCells) {
         System.out.println("step");
-        Grid instance = new Grid();
+        
+        Grid instance = new Grid(Cells.size(), Cells.get(0).size());
+        instance.setCells(Cells);
         instance.step();
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        //ExpectedCells, instance.getCells()
+        
+        for(int i = 0; i < Cells.size(); i++)
+            for(int j = 0; j < Cells.get(0).size(); j++)
+                assertEquals(ExpectedCells.get(i).get(j).getAlive(), instance.getCells().get(i).get(j).getAlive());
+        
     }
 
+    /**
+     * Test of setDims method, of class Grid. 
+     * @param width
+     * @param height
+     * @throws pl.polsl.lab1.agnieszka.tazbirek.exception.InvalidDimensionsException
+     */
+    @ParameterizedTest
+    @CsvSource({"5,5", "0,0", "-1,-1"})
+    public void testSetDims(int width, int height) throws InvalidDimensionsException {
+        System.out.println("setDims");
+        Grid instance = new Grid();
+        if(width <= 0 || height <=0){
+            InvalidDimensionsException exception = assertThrows(InvalidDimensionsException.class,
+                    ()->instance.setDims(height, width));
+            assertEquals("The Grid cannot have a dimension that has a value of 0 or less.", exception.getMessage());
+        } else {
+            //shoud have propper dims
+            instance.setDims(height, width);
+            
+            assertAll("Check dimensions",
+                    ()->assertEquals(height, instance.getHeight()),
+                    ()->assertEquals(width, instance.getWidth())
+            );
+        }
+    }
+    
 }

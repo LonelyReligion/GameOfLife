@@ -22,6 +22,10 @@ public class Cell {
         this.alive = false;
     };
     
+    public Cell(boolean alive){
+        this.alive = alive;
+    };
+    
     /**
      * Sets field alive to boolean value.
      * @param alive value that alive field will be set to

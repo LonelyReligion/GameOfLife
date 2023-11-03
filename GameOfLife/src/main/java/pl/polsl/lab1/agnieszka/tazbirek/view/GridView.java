@@ -16,20 +16,21 @@ public class GridView {
      * Prints Cells (live cells as x and dead as -) alongside axis labels. 
      * @param Cells - current grids Cells field
      */
-    public void printGrid(ArrayList<ArrayList<Cell>> Cells, int width, int height){
+    public void printGrid(ArrayList<ArrayList<Cell>> Cells){
         System.out.print("    ");
-        for(int j = 0; j < width; j++){
+        for(int j = 0; j < Cells.get(0).size(); j++){
             System.out.print(j + "  ");
         }
         System.out.print("\n");
         
-        for(int i = 0; i < height; i++){
+        for(int i = 0; i < Cells.size(); i++){
+            int j = 0;
             if(i < 10)
                 System.out.print(i + "  ");
             else
                 System.out.print(i + " ");
-            for(int j = 0; j < width; j++){
-                if(Cells.get(i).get(j).getAlive()){
+            for(Cell c : Cells.get(i)){
+                if(c.getAlive()){
                     if(j > 9)
                         System.out.print(" x  ");
                     else
@@ -39,7 +40,8 @@ public class GridView {
                         System.out.print(" -  ");
                     else
                         System.out.print(" - ");
-                }    
+                }  
+                j++;
             }
             System.out.print("\n");
         }

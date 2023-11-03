@@ -16,17 +16,17 @@ public class Grid {
      * Set of cells on 2D grid
      */
     private ArrayList<ArrayList<Cell>> Cells = new ArrayList<>();
-    private int Height = 20;
+    private int Height = 20; //are they even needed
     private int Width = 20;
      /**
      * Zero-argument constructor 
  Height and Width default values are both set to 20.
      */
     public Grid(){
-        for(var row : Cells){
+        for(int i = 0; i < Height; i++){
             Cells.add(new ArrayList<>());
             for(int j = 0; j < Width; j++){
-                row.add(new Cell());
+                Cells.get(i).add(new Cell());
             }
         }
     };  
@@ -40,9 +40,10 @@ public class Grid {
         this.Height = height;
         this.Width = width;
         
-        for(var row : Cells){
+        for(int i = 0; i < height; i++){
+            Cells.add(new ArrayList<>());
             for(int j = 0; j < width; j++){
-                row.add(new Cell());
+                Cells.get(i).add(new Cell());
             }
         }
         
@@ -123,10 +124,12 @@ public class Grid {
         }
         this.Height = height;
         this.Width = width;
+        Cells = new ArrayList<>();
         
-        for(var row : Cells){
+        for(int i = 0; i < height; i++){
+            Cells.add(new ArrayList<Cell>());
             for(int j = 0; j < width; j++){ //for each here would cause ConcurrentModificationException
-                row.add(new Cell());
+                Cells.get(i).add(new Cell());
             }
         }
     };
@@ -138,4 +141,9 @@ public class Grid {
     public int getHeight(){
         return Height;
     }
+    
+    public void setCells( ArrayList<ArrayList<Cell>> Cells ){
+        this.Cells = Cells;
+    }
+
 }
