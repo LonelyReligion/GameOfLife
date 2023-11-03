@@ -23,10 +23,10 @@ public class Grid {
  Height and Width default values are both set to 20.
      */
     public Grid(){
-        for(int i = 0; i < Height; i++){
-            Cells.add(new ArrayList<Cell>());
+        for(var row : Cells){
+            Cells.add(new ArrayList<>());
             for(int j = 0; j < Width; j++){
-                Cells.get(i).add(new Cell());
+                row.add(new Cell());
             }
         }
     };  
@@ -40,9 +40,9 @@ public class Grid {
         this.Height = height;
         this.Width = width;
         
-        for(int i = 0; i < height; i++){
+        for(var row : Cells){
             for(int j = 0; j < width; j++){
-                Cells.get(i).add(new Cell());
+                row.add(new Cell());
             }
         }
         
@@ -74,14 +74,14 @@ public class Grid {
     public void step(){
         ArrayList<ArrayList<Integer>> neighbors_array = new ArrayList<>();
         for(int i = 0; i < Height; i++){
-            neighbors_array.add(new ArrayList<Integer>());
+            neighbors_array.add(new ArrayList<>());
             for(int j = 0; j < Width; j++){
                 neighbors_array.get(i).add(this.getNumberOfNeighbors(i, j));
             }   
         }
-        for(int i = 0; i < Height; i++){
+        for(int i = 0; i < Height; i++){ //I will not add for each here, because I would still need to have i defined, because of
             for(int j = 0; j < Width; j++){
-               int neighbors = neighbors_array.get(i).get(j);
+               int neighbors = neighbors_array.get(i).get(j); //here!
                if(Cells.get(i).get(j).getAlive() && (neighbors < 2 || neighbors > 3)){
                     Cells.get(i).get(j).setAlive(false);
                }else if(!Cells.get(i).get(j).getAlive() && neighbors == 3) {
@@ -124,9 +124,9 @@ public class Grid {
         this.Height = height;
         this.Width = width;
         
-        for(int i = 0; i < height; i++){
-            for(int j = 0; j < width; j++){
-                Cells.get(i).add(new Cell());
+        for(var row : Cells){
+            for(int j = 0; j < width; j++){ //for each here would cause ConcurrentModificationException
+                row.add(new Cell());
             }
         }
     };
