@@ -4,6 +4,7 @@
  */
 package pl.polsl.lab1.agnieszka.tazbirek.model;
 import java.util.ArrayList;
+import java.util.stream.Stream;
 import pl.polsl.lab1.agnieszka.tazbirek.exception.InvalidDimensionsException;
 
 /**
@@ -23,12 +24,17 @@ public class Grid {
  Height and Width default values are both set to 20.
      */
     public Grid(){
+        ArrayList<Integer> heightList = new ArrayList<>();
         for(int i = 0; i < Height; i++){
-            Cells.add(new ArrayList<>());
-            for(int j = 0; j < Width; j++){
-                Cells.get(i).add(new Cell());
-            }
+            heightList.add(i);
         }
+        Stream<Integer> heightStream = heightList.stream();
+        heightStream.forEach(p -> {
+            Cells.add(new ArrayList<>()); 
+            for(int j = 0; j < Width; j++){ 
+                Cells.get(Cells.size() - 1);        
+            }
+        });
     };  
         
     /**
@@ -40,13 +46,17 @@ public class Grid {
         this.Height = height;
         this.Width = width;
         
-        for(int i = 0; i < height; i++){
-            Cells.add(new ArrayList<>());
-            for(int j = 0; j < width; j++){
-                Cells.get(i).add(new Cell());
-            }
+        ArrayList<Integer> heightList = new ArrayList<>();
+        for(int i = 0; i < Height; i++){
+            heightList.add(i);
         }
-        
+        Stream<Integer> heightStream = heightList.stream();
+        heightStream.forEach(p -> {
+            Cells.add(new ArrayList<>()); 
+            for(int j = 0; j < Width; j++){ 
+                Cells.get(Cells.size() - 1);        
+            }
+        });
     }; 
     
     /**

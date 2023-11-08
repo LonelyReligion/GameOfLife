@@ -5,18 +5,12 @@
 package pl.polsl.lab1.agnieszka.tazbirek.model;
 
 import java.util.ArrayList;
-import java.util.LinkedList;
 import java.util.stream.Stream;
-import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.Test;
-import static org.junit.jupiter.api.Assertions.*;
 import static org.junit.jupiter.api.Assertions.*;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.*;
 import static org.junit.jupiter.params.provider.Arguments.arguments;
-import org.junit.platform.commons.util.StringUtils;
 import pl.polsl.lab1.agnieszka.tazbirek.exception.InvalidDimensionsException;
-import pl.polsl.lab1.agnieszka.tazbirek.model.Cell;
 
 /**
  *
@@ -27,9 +21,18 @@ public class GridTest {
     public GridTest() {
     }
     
+    /**
+     * Function providing arguments for {@link #testStep(java.util.ArrayList, java.util.ArrayList) testStep}.
+     * @return stream of arguments for {@link #testStep(java.util.ArrayList, java.util.ArrayList) testStep} method
+     */
     private static Stream<Arguments> listProvider(){
         return Stream.of(
-            arguments(
+            /** valid value 
+             *  oxo    ooo
+             *  oxo -> xxx
+             *  oxo    ooo
+             */
+      arguments(
             new ArrayList<ArrayList<Cell>>(){{
                 add(new ArrayList<Cell>(){{add(new Cell()); add(new Cell(true)); add(new Cell());}});
                 add(new ArrayList<Cell>(){{add(new Cell()); add(new Cell(true)); add(new Cell());}});
@@ -40,11 +43,33 @@ public class GridTest {
                 add(new ArrayList<Cell>(){{add(new Cell(true)); add(new Cell(true)); add(new Cell(true));}});
                 add(new ArrayList<Cell>(){{add(new Cell()); add(new Cell()); add(new Cell());}});
             }}
+            ),
+            /** valid value 
+             * oooo    oooo
+             * oxxo    oxxo
+             * oxxo -> oxxo
+             * oooo    oooo
+             */
+      arguments(
+            new ArrayList<ArrayList<Cell>>(){{
+                add(new ArrayList<Cell>(){{add(new Cell()); add(new Cell()); add(new Cell()); add(new Cell());}});
+                add(new ArrayList<Cell>(){{add(new Cell()); add(new Cell(true)); add(new Cell(true)); add(new Cell());}});
+                add(new ArrayList<Cell>(){{add(new Cell()); add(new Cell(true)); add(new Cell(true)); add(new Cell());}});
+                add(new ArrayList<Cell>(){{add(new Cell()); add(new Cell()); add(new Cell()); add(new Cell());}});
+            }},
+            new ArrayList<ArrayList<Cell>>(){{
+                add(new ArrayList<Cell>(){{add(new Cell()); add(new Cell()); add(new Cell()); add(new Cell());}});
+                add(new ArrayList<Cell>(){{add(new Cell()); add(new Cell(true)); add(new Cell(true)); add(new Cell());}});
+                add(new ArrayList<Cell>(){{add(new Cell()); add(new Cell(true)); add(new Cell(true)); add(new Cell());}});
+                add(new ArrayList<Cell>(){{add(new Cell()); add(new Cell()); add(new Cell()); add(new Cell());}});
+            }}
             )
         );
     }
     /**
      * Test of step method, of class Grid.
+     * @param Cells input grid normally provided by user or an array modified by a step function
+     * @param ExpectedCells expected values after the transformation
      */
     @ParameterizedTest
     @MethodSource("listProvider")
@@ -64,12 +89,12 @@ public class GridTest {
 
     /**
      * Test of setDims method, of class Grid. 
-     * @param width
-     * @param height
+     * @param width Width of the grid
+     * @param height Height of the grid
      * @throws pl.polsl.lab1.agnieszka.tazbirek.exception.InvalidDimensionsException
      */
     @ParameterizedTest
-    @CsvSource({"5,5", "0,0", "-1,-1"})
+    @CsvSource({"5,5" /** valid value */, "0,0"  /** invalid limit value */, "-1,-1" /** invalid value */})
     public void testSetDims(int width, int height) throws InvalidDimensionsException {
         System.out.println("setDims");
         Grid instance = new Grid();

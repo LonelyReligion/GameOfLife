@@ -4,6 +4,7 @@ pl\polsl\lab1\agnieszka\tazbirek\exception\InvalidDimensionsException.class
 pl\polsl\lab1\agnieszka\tazbirek\controller\GridController.class
 pl\polsl\lab1\agnieszka\tazbirek\controller\package-info.class
 pl\polsl\lab1\agnieszka\tazbirek\view\CellView.class
+pl\polsl\lab1\agnieszka\tazbirek\view\GridView$DeadOrAlive.class
 pl\polsl\lab1\agnieszka\tazbirek\model\package-info.class
 pl\polsl\lab1\agnieszka\tazbirek\model\Cell.class
 pl\polsl\lab1\agnieszka\tazbirek\view\GridView.class
