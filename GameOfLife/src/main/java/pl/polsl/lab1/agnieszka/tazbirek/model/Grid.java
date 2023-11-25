@@ -10,18 +10,24 @@ import pl.polsl.lab1.agnieszka.tazbirek.exception.InvalidDimensionsException;
 /**
  * Class representing games universe - two-dimensional grid of square cells.
  * @author Agnieszka Tażbirek
- * @version 1.0
+ * @version 1.1
  */
 public class Grid {
     /**
      * Set of cells on 2D grid
      */
     private ArrayList<ArrayList<Cell>> Cells = new ArrayList<>();
-    private int Height = 20; //are they even needed
+    /**
+     * Height of the grid
+     */
+    private int Height = 20;
+    /**
+     * Width of the grid
+     */
     private int Width = 20;
      /**
      * Zero-argument constructor 
- Height and Width default values are both set to 20.
+     * Height and Width default values are both set to 20.
      */
     public Grid(){
         ArrayList<Integer> heightList = new ArrayList<>();
@@ -90,7 +96,7 @@ public class Grid {
                 neighbors_array.get(i).add(this.getNumberOfNeighbors(i, j));
             }   
         }
-        for(int i = 0; i < Height; i++){ //I will not add for each here, because I would still need to have i defined, because of
+        for(int i = 0; i < Height; i++){ //I will not add for each here, because I would still need to have i defined
             for(int j = 0; j < Width; j++){
                int neighbors = neighbors_array.get(i).get(j); //here!
                if(Cells.get(i).get(j).getAlive() && (neighbors < 2 || neighbors > 3)){
@@ -137,21 +143,33 @@ public class Grid {
         Cells = new ArrayList<>();
         
         for(int i = 0; i < height; i++){
-            Cells.add(new ArrayList<Cell>());
+            Cells.add(new ArrayList<>());
             for(int j = 0; j < width; j++){ //for each here would cause ConcurrentModificationException
                 Cells.get(i).add(new Cell());
             }
         }
     };
     
+    /**
+     * Returns value of Width filed. 
+     * @return value of Width field
+     */
     public int getWidth(){
         return Width;
     }
     
+    /**
+     * Returns value of Height field.
+     * @return value of Height field
+     */
     public int getHeight(){
         return Height;
     }
     
+    /**
+     * Sets Cell field value to passed ArrayList.
+     * @param Cells ArrayList that Cell filed will be set to
+     */
     public void setCells( ArrayList<ArrayList<Cell>> Cells ){
         this.Cells = Cells;
     }

@@ -12,8 +12,9 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
 /**
- *
- * @author User
+ *  Test class for methods in Cell class
+ * @author Agnieszka Tażbirek
+ * @version 1.0
  */
 public class CellTest {
     private Cell cell;

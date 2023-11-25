@@ -21,7 +21,10 @@ public class Cell {
     public Cell(){
         this.alive = false;
     };
-    
+    /**
+     * One-argument constructor setting alive filed to passed boolean value.
+     * @param alive value that alive field will be set to
+     */
     public Cell(boolean alive){
         this.alive = alive;
     };

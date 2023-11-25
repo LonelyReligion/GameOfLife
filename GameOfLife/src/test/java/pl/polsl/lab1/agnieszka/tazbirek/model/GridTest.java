@@ -13,8 +13,9 @@ import static org.junit.jupiter.params.provider.Arguments.arguments;
 import pl.polsl.lab1.agnieszka.tazbirek.exception.InvalidDimensionsException;
 
 /**
- *
- * @author user
+ * Test class for methods in Grid class
+ * @author Agnieszka Tażbirek
+  * @version 1.0
  */
 public class GridTest {
     

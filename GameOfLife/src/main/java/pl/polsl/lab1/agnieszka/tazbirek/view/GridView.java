@@ -9,11 +9,16 @@ import pl.polsl.lab1.agnieszka.tazbirek.model.Cell;
 /**
  * This view class is managing displaying things on behalf of the GridController.
  * @author Agnieszka Tażbirek
- * @version 1.0
+ * @version 1.1
  */
 public class GridView {
+    /**
+     * Enum representing the state of a cell
+     */
     public enum DeadOrAlive{
+        /** means alive */
         x,
+        /** means dead */
         o;
     }
     
