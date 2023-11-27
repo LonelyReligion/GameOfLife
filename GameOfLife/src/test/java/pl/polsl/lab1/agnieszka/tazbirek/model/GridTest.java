@@ -15,7 +15,7 @@ import pl.polsl.lab1.agnieszka.tazbirek.exception.InvalidDimensionsException;
 /**
  * Test class for methods in Grid class
  * @author Agnieszka Tażbirek
-  * @version 1.0
+ * @version 1.0
  */
 public class GridTest {
     
