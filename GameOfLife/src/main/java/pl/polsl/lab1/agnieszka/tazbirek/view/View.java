@@ -10,6 +10,7 @@ import javax.swing.*;
 import javax.swing.event.*;
 import javax.swing.text.NumberFormatter;
 import java.beans.*;
+import java.util.ArrayList;
 import pl.polsl.lab1.agnieszka.tazbirek.exception.InvalidDimensionsException;
 
 import pl.polsl.lab1.agnieszka.tazbirek.model.Cell;
@@ -49,29 +50,46 @@ public class View extends javax.swing.JFrame
     }
     
     public void printGrid(){
+        String output = "     "; 
+        for(int j = 0; j < model.getCells().get(0).size(); j++){
+            output += (j + "  ");
+        }
+        output += ("\n");
         
+        ArrayList<ArrayList<DeadOrAlive>> deadAliveValues = new ArrayList<>();
+        for(int i = 0; i < model.getCells().size(); i++){
+            deadAliveValues.add(new ArrayList<>());
+            for(Cell c : model.getCells().get(i)){
+                deadAliveValues.get(i).add(c.getAlive() ? DeadOrAlive.x : DeadOrAlive.o);
+            }
+        }
+        
+        for(int i = 0; i < deadAliveValues.size(); i++){
+            int j = 0;
+            output += (i + (i < 10 ? "  " : " "));
+            for(DeadOrAlive state : deadAliveValues.get(i)){
+                output += (" " + state.toString() + (j > 9? "  " : " "));
+                j++;
+            }
+            output += ("\n");
+        }
+        
+        grid.setText(output);
     }
     
     public void actionPerformed(ActionEvent e){
         if ("dimensionsPosted".equals(e.getActionCommand())) {
-            String output = "";
             if((Integer) ySpinner.getValue() > 0 && (Integer) ySpinner.getValue() > 0){
-                for(int i = 0; i < (Integer) ySpinner.getValue(); i++){
-                    for(int j = 0; j < (Integer) xSpinner.getValue(); j++){
-                        output += " o ";
-                    };
-                    output += "\n";
-                };
                 dimensionsPost.setEnabled(false);
                 try{
                     model.setDims((Integer) ySpinner.getValue(), (Integer) xSpinner.getValue());
                 } catch(final InvalidDimensionsException ex){
                 }
+                printGrid();
             }else{
                 String backup = consoleOutput.getText();
                 consoleOutput.setText(backup+="\nInvalid dimensions. Try again.");
             };
-            grid.setText(output);
         }else if ("xyPosted".equals(e.getActionCommand()) && !dimensionsPost.isEnabled()){
             String backup = consoleOutput.getText();
             consoleOutput.setText(backup+= "\n" + (String) consoleInput.getText());
@@ -80,12 +98,16 @@ public class View extends javax.swing.JFrame
             
             if(strArr.length == 2){
                 var x = Integer.parseInt(strArr[0]);
-                var y = Integer.parseInt(strArr[0]);
+                var y = Integer.parseInt(strArr[1]);
+                model.setCellAlive(y, x, true); 
+                printGrid(); 
             } else {
                 backup = consoleOutput.getText();
                 consoleOutput.setText(backup+= "\nPlease provide both coordinates as integers at once.");
             }
             consoleInput.setText("");
+            
+
         };
     }
         
