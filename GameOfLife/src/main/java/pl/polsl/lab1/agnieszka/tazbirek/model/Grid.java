@@ -20,16 +20,17 @@ public class Grid {
     /**
      * Height of the grid
      */
-    private int Height = 20;
+    private int Height = 0;
     /**
      * Width of the grid
      */
-    private int Width = 20;
+    private int Width = 0;
      /**
      * Zero-argument constructor 
      * Height and Width default values are both set to 20.
      */
     public Grid(){
+        System.out.print("Tworze grida \n");
         ArrayList<Integer> heightList = new ArrayList<>();
         for(int i = 0; i < Height; i++){
             heightList.add(i);
@@ -135,6 +136,7 @@ public class Grid {
      * @throws pl.polsl.lab1.agnieszka.tazbirek.exception.InvalidDimensionsException when dimensions are lesser or equal 0
      */
     public void setDims(int height, int width) throws InvalidDimensionsException {
+        System.out.print("Ustawiam wymiary \n");
         if(height <= 0 || width <= 0){
             throw new InvalidDimensionsException("The Grid cannot have a dimension that has a value of 0 or less.");
         }

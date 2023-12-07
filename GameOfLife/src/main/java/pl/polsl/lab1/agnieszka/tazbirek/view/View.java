@@ -15,6 +15,7 @@ import pl.polsl.lab1.agnieszka.tazbirek.exception.InvalidDimensionsException;
 
 import pl.polsl.lab1.agnieszka.tazbirek.model.Cell;
 import pl.polsl.lab1.agnieszka.tazbirek.model.Grid;
+import pl.polsl.lab1.agnieszka.tazbirek.model.Session;
 
 /**
  * TODO: 
@@ -26,6 +27,8 @@ public class View extends javax.swing.JFrame
                   implements ActionListener{
     
     private static Grid model;
+    private static Session sesh;
+    
     private static boolean simulationRunning = false;
     private Timer timer;
     private int delay = 1000;
@@ -41,7 +44,6 @@ public class View extends javax.swing.JFrame
     }
     
     public void dimensionsPosted(Integer height, Integer width){
-        System.out.print("dims posted " + width + " " + height + "\n");
         try{
             model.setDims(height, width);
             dimensionsPost.setEnabled(false);
@@ -49,9 +51,7 @@ public class View extends javax.swing.JFrame
             consolePost.setEnabled(true);
             startSim.setEnabled(true);
             consoleInput.setEnabled(true);
-            System.out.print("all have been executed \n");
         } catch(final InvalidDimensionsException ex){
-            System.out.print("exception occurred \n");
             String backup = consoleOutput.getText();
             consoleOutput.setText(backup+="\nInvalid dimensions. Try again.");
         } 
@@ -60,8 +60,12 @@ public class View extends javax.swing.JFrame
     /**
      * Creates new form View
      */
-    public View(Grid instance) {
+    public View(Grid instance, Session session) {
         model = instance;
+        sesh = session;
+        
+        getContentPane().setBackground(Color.decode("#fffda3")); 
+        
         initComponents();
         grid.setEditable(false);
         consoleInput.setEnabled(false);
@@ -81,6 +85,14 @@ public class View extends javax.swing.JFrame
         stopSim.setActionCommand("simStopped");
         stopSim.addActionListener(this);
         stopSim.setMnemonic(KeyEvent.VK_S); /** as in stop */
+        
+        if(model.getWidth() != 0 && model.getHeight() != 0){
+            dimensionsPost.setEnabled(false);
+            printGrid();
+            consolePost.setEnabled(true);
+            startSim.setEnabled(true);
+            consoleInput.setEnabled(true);
+        }
         
         timer = new Timer(delay, this);
         timer.setInitialDelay(delay); 
@@ -119,7 +131,8 @@ public class View extends javax.swing.JFrame
     public void actionPerformed(ActionEvent e){
         if(simulationRunning){ 
             model.step(); 
-            frameNumber.setText(String.valueOf(Integer.parseInt(frameNumber.getText()) + 1));
+            frameNumber.setText(String.valueOf(sesh.getNoFrames()));
+            sesh.setNoFrames(sesh.getNoFrames()+1);
             printGrid();
         }
                         
@@ -146,6 +159,7 @@ public class View extends javax.swing.JFrame
             }
             consoleInput.setText("");
         } else if ("simStarted".equals(e.getActionCommand())){
+            sesh.setNoFrames(0);
             startSim.setEnabled(false);
             stopSim.setEnabled(true);
             simulationRunning = true;
@@ -190,7 +204,7 @@ public class View extends javax.swing.JFrame
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new View(model).setVisible(true);
+                new View(model, sesh).setVisible(true);
             }
         });
         
@@ -223,13 +237,17 @@ public class View extends javax.swing.JFrame
         frameNumber = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setBackground(new java.awt.Color(210, 215, 223));
+        setTitle("The Game Of Life");
+        setBackground(new java.awt.Color(204, 204, 255));
+        setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        setFont(new java.awt.Font("Cambria", 3, 10)); // NOI18N
+        setResizable(false);
 
         xSpinner.setName("xDim"); // NOI18N
 
         ySpinner.setName("yDim"); // NOI18N
 
-        dimensionsPost.setBackground(new java.awt.Color(204, 243, 255));
+        dimensionsPost.setBackground(new java.awt.Color(204, 255, 255));
         dimensionsPost.setForeground(new java.awt.Color(51, 51, 51));
         dimensionsPost.setText("POST");
         dimensionsPost.setName("postDim"); // NOI18N
@@ -245,14 +263,14 @@ public class View extends javax.swing.JFrame
 
         consoleInput.setName("consoleInput"); // NOI18N
 
-        consolePost.setBackground(new java.awt.Color(204, 204, 255));
-        consolePost.setForeground(new java.awt.Color(102, 102, 102));
+        consolePost.setBackground(new java.awt.Color(204, 255, 255));
+        consolePost.setForeground(new java.awt.Color(51, 51, 51));
         consolePost.setText("POST");
         consolePost.setEnabled(false);
         consolePost.setName("consolePost"); // NOI18N
 
-        startSim.setBackground(new java.awt.Color(205, 237, 253));
-        startSim.setForeground(new java.awt.Color(102, 102, 102));
+        startSim.setBackground(new java.awt.Color(204, 255, 255));
+        startSim.setForeground(new java.awt.Color(51, 51, 51));
         startSim.setText("START");
         startSim.setEnabled(false);
         startSim.setName("startSim"); // NOI18N
@@ -271,7 +289,7 @@ public class View extends javax.swing.JFrame
 
         jLabel3.setText("x:");
 
-        stopSim.setBackground(new java.awt.Color(153, 255, 255));
+        stopSim.setBackground(new java.awt.Color(204, 255, 255));
         stopSim.setForeground(new java.awt.Color(51, 51, 51));
         stopSim.setText("STOP");
         stopSim.setEnabled(false);
@@ -297,70 +315,67 @@ public class View extends javax.swing.JFrame
                         .addComponent(jLabel4)
                         .addGap(18, 18, 18)
                         .addComponent(frameNumber)))
+                .addGap(25, 25, 25)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addComponent(dimensionsPost, javax.swing.GroupLayout.PREFERRED_SIZE, 89, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 15, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(xSpinner, javax.swing.GroupLayout.PREFERRED_SIZE, 97, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(44, 44, 44)
+                        .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, 31, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(ySpinner, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jLabel1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(25, 25, 25)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
-                                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 256, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(0, 0, Short.MAX_VALUE))
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 15, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(xSpinner, javax.swing.GroupLayout.PREFERRED_SIZE, 97, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(56, 56, 56)
-                                .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(ySpinner, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                    .addGroup(layout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(dimensionsPost, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 89, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                .addGroup(layout.createSequentialGroup()
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(startSim)
-                                    .addGap(118, 118, 118)
-                                    .addComponent(stopSim))
+                                    .addComponent(consoleInput, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGap(44, 44, 44)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addGroup(layout.createSequentialGroup()
-                                        .addComponent(consoleInput, javax.swing.GroupLayout.PREFERRED_SIZE, 167, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                        .addComponent(consolePost))
-                                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 270, javax.swing.GroupLayout.PREFERRED_SIZE))))))
-                .addGap(14, 14, 14))
+                                    .addComponent(consolePost, javax.swing.GroupLayout.DEFAULT_SIZE, 85, Short.MAX_VALUE)
+                                    .addComponent(stopSim, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 263, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(0, 0, Short.MAX_VALUE)))
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap(7, Short.MAX_VALUE)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel1)
-                    .addComponent(jLabel4)
-                    .addComponent(frameNumber))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGap(22, 22, 22)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(jLabel4)
+                        .addComponent(frameNumber))
+                    .addComponent(jLabel1, javax.swing.GroupLayout.Alignment.TRAILING))
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
+                        .addGap(7, 7, 7)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(ySpinner, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(xSpinner, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel2)
+                            .addComponent(xSpinner, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel3))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(dimensionsPost)
-                        .addGap(18, 18, 18)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(consoleInput, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(consolePost))
+                            .addComponent(consolePost, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(18, 18, 18)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(startSim)
                             .addComponent(stopSim)))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(8, 8, 8)
-                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 231, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap())
+                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 243, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         pack();
@@ -370,15 +385,6 @@ public class View extends javax.swing.JFrame
         // TODO add your handling code here:
     }//GEN-LAST:event_stopSimActionPerformed
 
-    /**
-    public static void main( String[] arg) { 
-        javax.swing.SwingUtilities.invokeLater(new Runnable() {
-            public void run() {
-                createAndShowGUI();
-            }
-        });
-    } 
-*/
     
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JTextField consoleInput;

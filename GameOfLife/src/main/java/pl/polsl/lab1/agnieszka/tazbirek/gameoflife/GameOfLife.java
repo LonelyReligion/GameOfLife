@@ -24,7 +24,7 @@ public class GameOfLife {
         
         if(args.length >1){
             try {
-                controller.setGridDims(Integer.parseInt(args[0]), Integer.parseInt(args[1]));
+                controller.setGridDims(Integer.valueOf(args[0]), Integer.valueOf(args[1]));
             }catch(final NumberFormatException e){
                 System.out.print("exception occurred in main\n");
             }

@@ -6,9 +6,12 @@ package pl.polsl.lab1.agnieszka.tazbirek.controller;
 
 import java.util.Scanner;
 import java.util.concurrent.TimeUnit;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import pl.polsl.lab1.agnieszka.tazbirek.exception.InvalidDimensionsException;
 import pl.polsl.lab1.agnieszka.tazbirek.model.Grid;
+import pl.polsl.lab1.agnieszka.tazbirek.model.Session;
 import pl.polsl.lab1.agnieszka.tazbirek.view.View;
 /**
  * Controller class for the Grid class from models. 
@@ -21,12 +24,17 @@ public class GridController {
     /** GridView we are using to display communicates. */
     private View view;  
     
+    private Session sesh;
+    
     /**
      * Zero-argument constructor. Model and view are created as well.
      */
     public GridController(){
         this.model = new Grid();
-        this.view = new View(model);
+        this.sesh = new Session();
+        this.view = new View(model, sesh);
+        
+        
         view.createAndShowGUI();
     };
     
@@ -36,11 +44,6 @@ public class GridController {
      * @param width of the grid
      */
     public void setGridDims(Integer height, Integer width){
-        try{
-            model.setDims(height, width);
             view.dimensionsPosted(height, width);
-        } catch(final InvalidDimensionsException e){
-            System.out.print("exception occurred in controller \n");
-        }
     };
 }
