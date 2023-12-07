@@ -20,24 +20,16 @@ public class GameOfLife {
      */
     public static void main(String[] args) {
         GridController controller = new GridController();
+        
+        
         if(args.length >1){
             try {
                 controller.setGridDims(Integer.parseInt(args[0]), Integer.parseInt(args[1]));
             }catch(final NumberFormatException e){
-                controller.displayMessage("You provided invalid dimensions. Dimensions will not be changed.");
-                controller.displayMessage("Default dimensions are 20x20.");
+                System.out.print("exception occurred in main\n");
             }
         }
-        else{
-           controller.setGridDims(); 
-        }
-        controller.displayMessage("\n"); 
-        controller.updateView();
-        controller.setGridInitialPattern();
         
-        
-        controller.simulationSettings();
-        controller.play();
     }
 }
 

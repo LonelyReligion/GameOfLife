@@ -25,7 +25,7 @@ import pl.polsl.lab1.agnieszka.tazbirek.model.Grid;
 public class View extends javax.swing.JFrame 
                   implements ActionListener{
     
-    private static Grid model = new Grid();
+    private static Grid model;
     private static boolean simulationRunning = false;
     private Timer timer;
     private int delay = 1000;
@@ -40,10 +40,28 @@ public class View extends javax.swing.JFrame
         o;
     }
     
+    public void dimensionsPosted(Integer height, Integer width){
+        System.out.print("dims posted " + width + " " + height + "\n");
+        try{
+            model.setDims(height, width);
+            dimensionsPost.setEnabled(false);
+            printGrid();
+            consolePost.setEnabled(true);
+            startSim.setEnabled(true);
+            consoleInput.setEnabled(true);
+            System.out.print("all have been executed \n");
+        } catch(final InvalidDimensionsException ex){
+            System.out.print("exception occurred \n");
+            String backup = consoleOutput.getText();
+            consoleOutput.setText(backup+="\nInvalid dimensions. Try again.");
+        } 
+    }
+            
     /**
      * Creates new form View
      */
-    public View() {
+    public View(Grid instance) {
+        model = instance;
         initComponents();
         grid.setEditable(false);
         consoleInput.setEnabled(false);
@@ -106,20 +124,11 @@ public class View extends javax.swing.JFrame
         }
                         
         if ("dimensionsPosted".equals(e.getActionCommand())) {
-            if((Integer) ySpinner.getValue() > 0 && (Integer) ySpinner.getValue() > 0){
-                dimensionsPost.setEnabled(false);
-                try{
-                    model.setDims((Integer) ySpinner.getValue(), (Integer) xSpinner.getValue());
-                } catch(final InvalidDimensionsException ex){
-                }
-                printGrid();
-                consolePost.setEnabled(true);
-                startSim.setEnabled(true);
-                consoleInput.setEnabled(true);
-            }else{
-                String backup = consoleOutput.getText();
-                consoleOutput.setText(backup+="\nInvalid dimensions. Try again.");
-            };
+            Integer width = (Integer) ySpinner.getValue();
+            Integer height = (Integer) ySpinner.getValue();
+            
+            dimensionsPosted(height, width);
+            
         }else if ("xyPosted".equals(e.getActionCommand())){
             String backup = consoleOutput.getText();
             consoleOutput.setText(backup+= "\n" + (String) consoleInput.getText());
@@ -153,7 +162,7 @@ public class View extends javax.swing.JFrame
         };
     }
         
-    private static void createAndShowGUI(){
+    public static void createAndShowGUI(){
                 /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
         /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
@@ -181,7 +190,7 @@ public class View extends javax.swing.JFrame
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new View().setVisible(true);
+                new View(model).setVisible(true);
             }
         });
         
@@ -361,39 +370,15 @@ public class View extends javax.swing.JFrame
         // TODO add your handling code here:
     }//GEN-LAST:event_stopSimActionPerformed
 
-    
-    public static void main( String[] arg) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(View.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(View.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(View.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(View.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
-
-        
-        /* Create and display the form */
+    /**
+    public static void main( String[] arg) { 
         javax.swing.SwingUtilities.invokeLater(new Runnable() {
             public void run() {
                 createAndShowGUI();
             }
         });
-    }
+    } 
+*/
     
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JTextField consoleInput;
