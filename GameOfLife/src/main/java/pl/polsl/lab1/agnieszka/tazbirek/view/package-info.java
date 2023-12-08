@@ -3,6 +3,6 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/package-info.java to edit this template
  */
 /**
- * Package with two view classes: {@link pl.polsl.lab1.agnieszka.tazbirek.view.CellView} and {@link pl.polsl.lab1.agnieszka.tazbirek.view.GridView}.
+ * Package with one view class: {@link pl.polsl.lab1.agnieszka.tazbirek.view.View}.
  */
 package pl.polsl.lab1.agnieszka.tazbirek.view;

@@ -4,6 +4,6 @@
  */
 
 /**
- * Contains two controller classes: {@link pl.polsl.lab1.agnieszka.tazbirek.controller.CellController} and {@link pl.polsl.lab1.agnieszka.tazbirek.controller.GridController}.
+ * Contains controller class: {@link pl.polsl.lab1.agnieszka.tazbirek.controller.GridController}.
  */
 package pl.polsl.lab1.agnieszka.tazbirek.controller;

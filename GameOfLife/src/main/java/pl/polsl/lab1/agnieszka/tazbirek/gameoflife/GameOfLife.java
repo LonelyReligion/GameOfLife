@@ -10,7 +10,7 @@ import pl.polsl.lab1.agnieszka.tazbirek.controller.*;
 /**
  * Main class of the application realizing the console implementation of Conway's Game of Life. 
  * @author Agnieszka Tażbirek
- * @version 1.0
+ * @version 1.1
  */
 public class GameOfLife {
     /**
@@ -26,7 +26,7 @@ public class GameOfLife {
             try {
                 controller.setGridDims(Integer.valueOf(args[0]), Integer.valueOf(args[1]));
             }catch(final NumberFormatException e){
-                System.out.print("exception occurred in main\n");
+                
             }
         }
         

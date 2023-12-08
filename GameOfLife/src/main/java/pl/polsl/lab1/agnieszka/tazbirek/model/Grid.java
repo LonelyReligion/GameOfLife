@@ -10,40 +10,31 @@ import pl.polsl.lab1.agnieszka.tazbirek.exception.InvalidDimensionsException;
 /**
  * Class representing games universe - two-dimensional grid of square cells.
  * @author Agnieszka Tażbirek
- * @version 1.1
+ * @version 1.2
  */
 public class Grid {
     /**
      * Set of cells on 2D grid
      */
     private ArrayList<ArrayList<Cell>> Cells = new ArrayList<>();
+    
     /**
      * Height of the grid
      */
-    private int Height = 0;
+    private int Height;
+    
     /**
      * Width of the grid
      */
-    private int Width = 0;
-     /**
+    private int Width;
+    
+    /**
      * Zero-argument constructor 
-     * Height and Width default values are both set to 20.
      */
     public Grid(){
-        System.out.print("Tworze grida \n");
-        ArrayList<Integer> heightList = new ArrayList<>();
-        for(int i = 0; i < Height; i++){
-            heightList.add(i);
-        }
-        Stream<Integer> heightStream = heightList.stream();
-        heightStream.forEach(p -> {
-            Cells.add(new ArrayList<>()); 
-            for(int j = 0; j < Width; j++){ 
-                Cells.get(Cells.size() - 1);        
-            }
-        });
-    };  
         
+    };   
+    
     /**
      * Two-argument constructor
      * @param height Height of the grid
@@ -97,9 +88,9 @@ public class Grid {
                 neighbors_array.get(i).add(this.getNumberOfNeighbors(i, j));
             }   
         }
-        for(int i = 0; i < Height; i++){ //I will not add for each here, because I would still need to have i defined
+        for(int i = 0; i < Height; i++){ 
             for(int j = 0; j < Width; j++){
-               int neighbors = neighbors_array.get(i).get(j); //here!
+               int neighbors = neighbors_array.get(i).get(j); 
                if(Cells.get(i).get(j).getAlive() && (neighbors < 2 || neighbors > 3)){
                     Cells.get(i).get(j).setAlive(false);
                }else if(!Cells.get(i).get(j).getAlive() && neighbors == 3) {
@@ -136,7 +127,6 @@ public class Grid {
      * @throws pl.polsl.lab1.agnieszka.tazbirek.exception.InvalidDimensionsException when dimensions are lesser or equal 0
      */
     public void setDims(int height, int width) throws InvalidDimensionsException {
-        System.out.print("Ustawiam wymiary \n");
         if(height <= 0 || width <= 0){
             throw new InvalidDimensionsException("The Grid cannot have a dimension that has a value of 0 or less.");
         }

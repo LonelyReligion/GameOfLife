@@ -7,9 +7,6 @@ package pl.polsl.lab1.agnieszka.tazbirek.view;
 import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
-import javax.swing.event.*;
-import javax.swing.text.NumberFormatter;
-import java.beans.*;
 import java.util.ArrayList;
 import pl.polsl.lab1.agnieszka.tazbirek.exception.InvalidDimensionsException;
 
@@ -18,20 +15,18 @@ import pl.polsl.lab1.agnieszka.tazbirek.model.Grid;
 import pl.polsl.lab1.agnieszka.tazbirek.model.Session;
 
 /**
- * TODO: 
- * -printowanie grida po jego zawartosci za pomoca enuma
- * -post console podlaczyc do entera
- * @author user
+ * View class managing displaying things on behalf of the GridController.
+ * @author Agnieszka Tażbirek
+ * @version 1.0
  */
 public class View extends javax.swing.JFrame 
                   implements ActionListener{
     
-    private static Grid model;
-    private static Session sesh;
+    private static Grid model; /** Grid object we are viewing. */
+    private static Session sesh; /** Session object that contains information about current instance of the game */
     
-    private static boolean simulationRunning = false;
-    private Timer timer;
-    private int delay = 1000;
+    private Timer timer; /** Timer for triggering event generating next frame. */
+    private int delay = 1000; /** Delay specifies speed of the animation. */
     
     /**
      * Enum representing the state of a cell
@@ -43,22 +38,23 @@ public class View extends javax.swing.JFrame
         o;
     }
     
+    /**
+     * Changes information displayed by GUI after we get dimensions.
+     * @param height height of the Grid
+     * @param width width of the Grid
+     */
     public void dimensionsPosted(Integer height, Integer width){
-        try{
-            model.setDims(height, width);
-            dimensionsPost.setEnabled(false);
+            dimensionsPost.setEnabled(false); /** User cannot change dimensions after they've been set.*/
             printGrid();
             consolePost.setEnabled(true);
             startSim.setEnabled(true);
             consoleInput.setEnabled(true);
-        } catch(final InvalidDimensionsException ex){
-            String backup = consoleOutput.getText();
-            consoleOutput.setText(backup+="\nInvalid dimensions. Try again.");
-        } 
     }
             
     /**
-     * Creates new form View
+     * Two-argument constructor of the class View
+     * @param instance Grid object we are viewing.
+     * @param session Session object that contains information about current instance of the game
      */
     public View(Grid instance, Session session) {
         model = instance;
@@ -100,6 +96,9 @@ public class View extends javax.swing.JFrame
         timer.stop();
     }
     
+    /**
+     * Displays Grid in the grid JTextArea
+     */
     public void printGrid(){
         String output = "    "; 
         for(int j = 0; j < model.getCells().get(0).size(); j++){
@@ -128,54 +127,64 @@ public class View extends javax.swing.JFrame
         grid.setText(output);
     }
     
+    /** Method handling event of ActionEvent type.
+    *	@param e incoming ActionEvent event
+    */
     public void actionPerformed(ActionEvent e){
-        if(simulationRunning){ 
+        if(sesh.getSimulationRunning()){  /** If simulation is running proceed to the next frame */
             model.step(); 
             frameNumber.setText(String.valueOf(sesh.getNoFrames()));
             sesh.setNoFrames(sesh.getNoFrames()+1);
             printGrid();
         }
                         
-        if ("dimensionsPosted".equals(e.getActionCommand())) {
+        if ("dimensionsPosted".equals(e.getActionCommand())) { /** Dimensions provided via spinners, confirmed by button */
             Integer width = (Integer) ySpinner.getValue();
             Integer height = (Integer) ySpinner.getValue();
+            try{
+                model.setDims(height, width);
+                dimensionsPosted(height, width);
+            } catch(final InvalidDimensionsException ex){
+                String backup = consoleOutput.getText();
+                consoleOutput.setText(backup+="\nInvalid dimensions. Try again.");
+            } 
             
-            dimensionsPosted(height, width);
-            
-        }else if ("xyPosted".equals(e.getActionCommand())){
+        }else if ("xyPosted".equals(e.getActionCommand())){ /** Coordinates of an alive Cell provided by JTextField and confirmed by button */
             String backup = consoleOutput.getText();
             consoleOutput.setText(backup+= "\n" + (String) consoleInput.getText());
             
             String[] strArr = ((String) consoleInput.getText()).split("\\s+");
             
-            if(strArr.length == 2){
+            if(strArr.length == 2){ /** Valid data */
                 var x = Integer.parseInt(strArr[0]);
                 var y = Integer.parseInt(strArr[1]);
                 model.setCellAlive(y, x, true); 
                 printGrid(); 
-            } else {
+            } else { /** Invalid data */
                 backup = consoleOutput.getText();
                 consoleOutput.setText(backup += "\nPlease provide both coordinates as integers at once.");
             }
-            consoleInput.setText("");
-        } else if ("simStarted".equals(e.getActionCommand())){
+            consoleInput.setText(""); /** clear */
+        } else if ("simStarted".equals(e.getActionCommand())){ /** Simulation started */
             sesh.setNoFrames(0);
             startSim.setEnabled(false);
             stopSim.setEnabled(true);
-            simulationRunning = true;
+            sesh.setSimulationRunning(true);
             consoleInput.setEnabled(false);
             consolePost.setEnabled(false);
             timer.start();
-        } else if ("simStopped".equals(e.getActionCommand())){
+        } else if ("simStopped".equals(e.getActionCommand())){ /** Simulation stopped */
             startSim.setEnabled(true);
             stopSim.setEnabled(false);
-            simulationRunning = false;
+            sesh.setSimulationRunning(false);
             consoleInput.setEnabled(true);
             consolePost.setEnabled(true);
             timer.stop();
-        };
+        }
     }
-        
+    /**	
+     *	Creating and showing GUI 
+     */   
     public static void createAndShowGUI(){
                 /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
@@ -227,13 +236,13 @@ public class View extends javax.swing.JFrame
         consoleInput = new javax.swing.JTextField();
         consolePost = new javax.swing.JButton();
         startSim = new javax.swing.JButton();
-        jLabel1 = new javax.swing.JLabel();
+        instruction = new javax.swing.JLabel();
         jScrollPane2 = new javax.swing.JScrollPane();
         grid = new javax.swing.JTextArea();
-        jLabel2 = new javax.swing.JLabel();
-        jLabel3 = new javax.swing.JLabel();
+        yLabel = new javax.swing.JLabel();
+        xLabel = new javax.swing.JLabel();
         stopSim = new javax.swing.JButton();
-        jLabel4 = new javax.swing.JLabel();
+        frameLabel = new javax.swing.JLabel();
         frameNumber = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -275,7 +284,7 @@ public class View extends javax.swing.JFrame
         startSim.setEnabled(false);
         startSim.setName("startSim"); // NOI18N
 
-        jLabel1.setText("Provide dimensions of the grid.");
+        instruction.setText("Provide dimensions of the grid.");
 
         grid.setBackground(new java.awt.Color(204, 255, 255));
         grid.setColumns(20);
@@ -285,9 +294,9 @@ public class View extends javax.swing.JFrame
         grid.setName("grid"); // NOI18N
         jScrollPane2.setViewportView(grid);
 
-        jLabel2.setText("y:");
+        yLabel.setText("y:");
 
-        jLabel3.setText("x:");
+        xLabel.setText("x:");
 
         stopSim.setBackground(new java.awt.Color(204, 255, 255));
         stopSim.setForeground(new java.awt.Color(51, 51, 51));
@@ -299,7 +308,7 @@ public class View extends javax.swing.JFrame
             }
         });
 
-        jLabel4.setText("Frame:");
+        frameLabel.setText("Frame:");
 
         frameNumber.setText("0");
 
@@ -312,7 +321,7 @@ public class View extends javax.swing.JFrame
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 229, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(jLabel4)
+                        .addComponent(frameLabel)
                         .addGap(18, 18, 18)
                         .addComponent(frameNumber)))
                 .addGap(25, 25, 25)
@@ -321,26 +330,24 @@ public class View extends javax.swing.JFrame
                         .addGap(0, 0, Short.MAX_VALUE)
                         .addComponent(dimensionsPost, javax.swing.GroupLayout.PREFERRED_SIZE, 89, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 15, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(xLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 15, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(xSpinner, javax.swing.GroupLayout.PREFERRED_SIZE, 97, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(44, 44, 44)
-                        .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, 31, Short.MAX_VALUE)
+                        .addComponent(yLabel, javax.swing.GroupLayout.DEFAULT_SIZE, 31, Short.MAX_VALUE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(ySpinner, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(jLabel1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(instruction, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(startSim)
-                                    .addComponent(consoleInput, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addGap(44, 44, 44)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addComponent(consolePost, javax.swing.GroupLayout.DEFAULT_SIZE, 85, Short.MAX_VALUE)
-                                    .addComponent(stopSim, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-                            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 263, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(0, 0, Short.MAX_VALUE)))
+                            .addComponent(startSim)
+                            .addComponent(consoleInput, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(44, 44, 44)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(consolePost, javax.swing.GroupLayout.DEFAULT_SIZE, 85, Short.MAX_VALUE)
+                            .addComponent(stopSim, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addComponent(jScrollPane1))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -349,17 +356,17 @@ public class View extends javax.swing.JFrame
                 .addGap(22, 22, 22)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(jLabel4)
+                        .addComponent(frameLabel)
                         .addComponent(frameNumber))
-                    .addComponent(jLabel1, javax.swing.GroupLayout.Alignment.TRAILING))
+                    .addComponent(instruction, javax.swing.GroupLayout.Alignment.TRAILING))
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addGap(7, 7, 7)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(ySpinner, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel2)
+                            .addComponent(yLabel)
                             .addComponent(xSpinner, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel3))
+                            .addComponent(xLabel))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(dimensionsPost)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -391,17 +398,17 @@ public class View extends javax.swing.JFrame
     private javax.swing.JTextArea consoleOutput;
     private javax.swing.JButton consolePost;
     private javax.swing.JButton dimensionsPost;
+    private javax.swing.JLabel frameLabel;
     private javax.swing.JLabel frameNumber;
     private javax.swing.JTextArea grid;
-    private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel3;
-    private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel instruction;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JButton startSim;
     private javax.swing.JButton stopSim;
+    private javax.swing.JLabel xLabel;
     private javax.swing.JSpinner xSpinner;
+    private javax.swing.JLabel yLabel;
     private javax.swing.JSpinner ySpinner;
     // End of variables declaration//GEN-END:variables
 }
