@@ -8,7 +8,6 @@ import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
 import java.util.ArrayList;
-import javax.swing.tree.DefaultMutableTreeNode;
 import pl.polsl.lab1.agnieszka.tazbirek.exception.InvalidDimensionsException;
 
 import pl.polsl.lab1.agnieszka.tazbirek.model.Cell;
