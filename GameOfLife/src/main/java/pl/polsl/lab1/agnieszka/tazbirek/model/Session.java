@@ -10,8 +10,10 @@ package pl.polsl.lab1.agnieszka.tazbirek.model;
  * @version 1.0
  */
 public class Session {
-    private Integer noFrames; /** Number of frames executed since the last start. */
-    private boolean simulationRunning; /** Is simulation currently running. */
+    /** Number of frames executed since the last start. */
+    private Integer noFrames; 
+    /** Is simulation currently running. */
+    private boolean simulationRunning; 
     
     /**
      *  Zero-argument constructor 

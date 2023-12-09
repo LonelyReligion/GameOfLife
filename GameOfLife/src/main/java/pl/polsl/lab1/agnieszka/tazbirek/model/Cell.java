@@ -13,7 +13,7 @@ public class Cell {
     /**
      * Binary value representing cell's state (1 - alive, 0 - dead)
      */
-    boolean alive;
+    private boolean alive;
     
     /**
      * Zero-argument constructor setting alive field to false.

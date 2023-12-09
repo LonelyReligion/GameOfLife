@@ -34,8 +34,8 @@ public class GridController {
     
      /**
      * Sets dimensions for the grid.
-     * @param height of the grid
-     * @param width of the grid
+     * @param height height of the grid
+     * @param width height of the grid
      */
     public void setGridDims(Integer height, Integer width){
         try{

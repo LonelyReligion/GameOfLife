@@ -75,17 +75,18 @@ public class GridTest {
     @ParameterizedTest
     @MethodSource("listProvider")
     public void testStep(ArrayList<ArrayList<Cell>> Cells, ArrayList<ArrayList<Cell>> ExpectedCells) {
-        System.out.println("step");
-        
+        //given
         Grid instance = new Grid(Cells.size(), Cells.get(0).size());
+        //when
         instance.setCells(Cells);
         instance.step();
-        //ExpectedCells, instance.getCells()
         
-        for(int i = 0; i < Cells.size(); i++)
-            for(int j = 0; j < Cells.get(0).size(); j++)
+        //then
+        for(int i = 0; i < Cells.size(); i++){
+            for(int j = 0; j < Cells.get(0).size(); j++){
                 assertEquals(ExpectedCells.get(i).get(j).getAlive(), instance.getCells().get(i).get(j).getAlive());
-        
+            }
+        }
     }
 
     /**
@@ -97,16 +98,18 @@ public class GridTest {
     @ParameterizedTest
     @CsvSource({"5,5" /** valid value */, "0,0"  /** invalid limit value */, "-1,-1" /** invalid value */})
     public void testSetDims(int width, int height) throws InvalidDimensionsException {
-        System.out.println("setDims");
+        //given
         Grid instance = new Grid();
         if(width <= 0 || height <=0){
+            //when
             InvalidDimensionsException exception = assertThrows(InvalidDimensionsException.class,
                     ()->instance.setDims(height, width));
+            //then
             assertEquals("The Grid cannot have a dimension that has a value of 0 or less.", exception.getMessage());
         } else {
-            //shoud have propper dims
+            //when
             instance.setDims(height, width);
-            
+            //then
             assertAll("Check dimensions",
                     ()->assertEquals(height, instance.getHeight()),
                     ()->assertEquals(width, instance.getWidth())

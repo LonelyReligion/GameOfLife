@@ -1,6 +1,31 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 
 <Form version="1.3" maxVersion="1.9" type="org.netbeans.modules.form.forminfo.JFrameFormInfo">
+  <NonVisualComponents>
+    <Component class="javax.swing.JSlider" name="jSlider1">
+    </Component>
+    <Container class="javax.swing.JScrollPane" name="jScrollPane4">
+      <AuxValues>
+        <AuxValue name="autoScrollPane" type="java.lang.Boolean" value="true"/>
+      </AuxValues>
+
+      <Layout class="org.netbeans.modules.form.compat2.layouts.support.JScrollPaneSupportLayout"/>
+      <SubComponents>
+        <Component class="javax.swing.JTable" name="jTable1">
+          <Properties>
+            <Property name="model" type="javax.swing.table.TableModel" editor="org.netbeans.modules.form.editors2.TableModelEditor">
+              <Table columnCount="4" rowCount="4">
+                <Column editable="true" title="Title 1" type="java.lang.Object"/>
+                <Column editable="true" title="Title 2" type="java.lang.Object"/>
+                <Column editable="true" title="Title 3" type="java.lang.Object"/>
+                <Column editable="true" title="Title 4" type="java.lang.Object"/>
+              </Table>
+            </Property>
+          </Properties>
+        </Component>
+      </SubComponents>
+    </Container>
+  </NonVisualComponents>
   <Properties>
     <Property name="defaultCloseOperation" type="int" value="3"/>
     <Property name="title" type="java.lang.String" value="The Game Of Life"/>
@@ -35,90 +60,119 @@
     <DimensionLayout dim="0">
       <Group type="103" groupAlignment="1" attributes="0">
           <Group type="102" alignment="1" attributes="0">
-              <EmptySpace min="-2" pref="21" max="-2" attributes="0"/>
-              <Group type="103" groupAlignment="0" attributes="0">
-                  <Component id="jScrollPane2" min="-2" pref="229" max="-2" attributes="0"/>
-                  <Group type="102" attributes="0">
-                      <Component id="frameLabel" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace type="separate" max="-2" attributes="0"/>
-                      <Component id="frameNumber" min="-2" max="-2" attributes="0"/>
-                  </Group>
-              </Group>
-              <EmptySpace min="25" pref="25" max="-2" attributes="0"/>
-              <Group type="103" groupAlignment="0" attributes="0">
+              <EmptySpace min="21" pref="21" max="-2" attributes="0"/>
+              <Group type="103" groupAlignment="1" attributes="0">
                   <Group type="102" alignment="1" attributes="0">
-                      <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
-                      <Component id="dimensionsPost" min="-2" pref="89" max="-2" attributes="0"/>
-                  </Group>
-                  <Group type="102" alignment="1" attributes="0">
-                      <Component id="xLabel" min="-2" pref="15" max="-2" attributes="0"/>
-                      <EmptySpace max="-2" attributes="0"/>
-                      <Component id="xSpinner" min="-2" pref="97" max="-2" attributes="0"/>
-                      <EmptySpace min="-2" pref="44" max="-2" attributes="0"/>
-                      <Component id="yLabel" pref="31" max="32767" attributes="0"/>
-                      <EmptySpace max="-2" attributes="0"/>
-                      <Component id="ySpinner" min="-2" pref="80" max="-2" attributes="0"/>
-                  </Group>
-                  <Component id="instruction" alignment="1" max="32767" attributes="0"/>
-                  <Group type="102" alignment="0" attributes="0">
                       <Group type="103" groupAlignment="0" attributes="0">
-                          <Component id="startSim" min="-2" max="-2" attributes="0"/>
-                          <Component id="consoleInput" min="-2" pref="150" max="-2" attributes="0"/>
+                          <Component id="jScrollPane2" min="-2" pref="229" max="-2" attributes="0"/>
+                          <Group type="102" attributes="0">
+                              <Component id="frameLabel" min="-2" max="-2" attributes="0"/>
+                              <EmptySpace type="separate" max="-2" attributes="0"/>
+                              <Component id="frameNumber" min="-2" max="-2" attributes="0"/>
+                          </Group>
                       </Group>
-                      <EmptySpace min="-2" pref="44" max="-2" attributes="0"/>
-                      <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                          <Component id="consolePost" pref="85" max="32767" attributes="0"/>
-                          <Component id="stopSim" max="32767" attributes="0"/>
+                      <Group type="103" groupAlignment="0" attributes="0">
+                          <Group type="102" alignment="0" attributes="0">
+                              <EmptySpace min="-2" pref="20" max="-2" attributes="0"/>
+                              <Component id="instruction" pref="307" max="32767" attributes="0"/>
+                          </Group>
+                          <Group type="102" alignment="0" attributes="0">
+                              <EmptySpace min="-2" pref="12" max="-2" attributes="0"/>
+                              <Group type="103" groupAlignment="0" attributes="0">
+                                  <Component id="startSim" min="-2" max="-2" attributes="0"/>
+                                  <Group type="103" groupAlignment="1" max="-2" attributes="0">
+                                      <Group type="102" attributes="0">
+                                          <Component id="consoleInput" min="-2" pref="150" max="-2" attributes="0"/>
+                                          <EmptySpace max="32767" attributes="0"/>
+                                          <Component id="consolePost" min="-2" pref="85" max="-2" attributes="0"/>
+                                      </Group>
+                                      <Component id="jScrollPane1" alignment="0" min="-2" pref="301" max="-2" attributes="0"/>
+                                      <Group type="102" alignment="0" attributes="0">
+                                          <EmptySpace min="-2" pref="6" max="-2" attributes="0"/>
+                                          <Component id="xLabel" min="-2" pref="15" max="-2" attributes="0"/>
+                                          <EmptySpace max="-2" attributes="0"/>
+                                          <Component id="xSpinner" min="-2" pref="97" max="-2" attributes="0"/>
+                                          <EmptySpace min="-2" pref="70" max="-2" attributes="0"/>
+                                          <Group type="103" groupAlignment="1" attributes="0">
+                                              <Component id="dimensionsPost" alignment="1" min="-2" pref="89" max="-2" attributes="0"/>
+                                              <Group type="102" alignment="1" attributes="0">
+                                                  <Component id="yLabel" min="-2" max="-2" attributes="0"/>
+                                                  <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                                                  <Component id="ySpinner" min="-2" pref="97" max="-2" attributes="0"/>
+                                              </Group>
+                                          </Group>
+                                      </Group>
+                                  </Group>
+                              </Group>
+                              <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
+                          </Group>
                       </Group>
-                      <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
                   </Group>
-                  <Component id="jScrollPane1" alignment="0" max="32767" attributes="0"/>
+                  <Group type="102" alignment="1" attributes="0">
+                      <Group type="103" groupAlignment="1" max="-2" attributes="0">
+                          <Component id="stopSim" min="-2" pref="85" max="-2" attributes="0"/>
+                          <Component id="jScrollPane5" pref="542" max="32767" attributes="0"/>
+                          <Component id="jLabel1" max="32767" attributes="0"/>
+                      </Group>
+                      <EmptySpace min="14" pref="14" max="-2" attributes="0"/>
+                  </Group>
               </Group>
-              <EmptySpace max="-2" attributes="0"/>
+              <EmptySpace min="-2" max="-2" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
     <DimensionLayout dim="1">
       <Group type="103" groupAlignment="0" attributes="0">
-          <Group type="102" attributes="0">
-              <EmptySpace min="-2" pref="22" max="-2" attributes="0"/>
+          <Group type="102" alignment="0" attributes="0">
+              <EmptySpace min="22" pref="22" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="0" attributes="0">
-                  <Group type="103" alignment="1" groupAlignment="3" attributes="0">
-                      <Component id="frameLabel" alignment="3" min="-2" max="-2" attributes="0"/>
-                      <Component id="frameNumber" alignment="3" min="-2" max="-2" attributes="0"/>
-                  </Group>
-                  <Component id="instruction" alignment="1" min="-2" max="-2" attributes="0"/>
-              </Group>
-              <Group type="103" groupAlignment="0" attributes="0">
-                  <Group type="102" attributes="0">
-                      <EmptySpace min="-2" pref="7" max="-2" attributes="0"/>
+                  <Group type="102" alignment="0" attributes="0">
+                      <Component id="instruction" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace type="unrelated" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="3" attributes="0">
-                          <Component id="ySpinner" alignment="3" min="-2" max="-2" attributes="0"/>
                           <Component id="yLabel" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="xSpinner" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="xLabel" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="ySpinner" alignment="3" min="-2" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace type="unrelated" max="-2" attributes="0"/>
                       <Component id="dimensionsPost" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace max="-2" attributes="0"/>
+                      <EmptySpace type="separate" max="-2" attributes="0"/>
                       <Component id="jScrollPane1" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace type="separate" min="-2" max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="0" attributes="0">
+                          <Component id="consoleInput" alignment="0" min="-2" max="-2" attributes="0"/>
+                          <Component id="consolePost" min="-2" pref="27" max="-2" attributes="0"/>
+                      </Group>
                       <EmptySpace type="separate" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="3" attributes="0">
-                          <Component id="consoleInput" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="consolePost" alignment="3" min="-2" pref="27" max="-2" attributes="0"/>
-                      </Group>
-                      <EmptySpace min="-2" pref="18" max="-2" attributes="0"/>
-                      <Group type="103" groupAlignment="3" attributes="0">
+                          <Component id="stopSim" alignment="0" min="-2" max="-2" attributes="0"/>
                           <Component id="startSim" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="stopSim" alignment="3" min="-2" max="-2" attributes="0"/>
                       </Group>
                   </Group>
                   <Group type="102" alignment="0" attributes="0">
-                      <EmptySpace min="-2" pref="8" max="-2" attributes="0"/>
-                      <Component id="jScrollPane2" min="-2" pref="243" max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="3" attributes="0">
+                          <Component id="frameLabel" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="frameNumber" alignment="3" min="-2" max="-2" attributes="0"/>
+                      </Group>
+                      <Group type="103" groupAlignment="0" attributes="0">
+                          <Group type="102" attributes="0">
+                              <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                              <Group type="103" groupAlignment="3" attributes="0">
+                                  <Component id="xSpinner" alignment="3" min="-2" max="-2" attributes="0"/>
+                                  <Component id="xLabel" alignment="3" min="-2" max="-2" attributes="0"/>
+                              </Group>
+                          </Group>
+                          <Group type="102" attributes="0">
+                              <EmptySpace min="-2" pref="8" max="-2" attributes="0"/>
+                              <Component id="jScrollPane2" min="-2" pref="278" max="-2" attributes="0"/>
+                          </Group>
+                      </Group>
                   </Group>
               </Group>
-              <EmptySpace max="32767" attributes="0"/>
+              <EmptySpace type="unrelated" max="-2" attributes="0"/>
+              <Component id="jLabel1" min="-2" max="-2" attributes="0"/>
+              <EmptySpace max="-2" attributes="0"/>
+              <Component id="jScrollPane5" min="-2" pref="75" max="-2" attributes="0"/>
+              <EmptySpace min="-2" pref="18" max="-2" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
@@ -126,11 +180,13 @@
   <SubComponents>
     <Component class="javax.swing.JSpinner" name="xSpinner">
       <Properties>
+        <Property name="toolTipText" type="java.lang.String" value="input width of the grid"/>
         <Property name="name" type="java.lang.String" value="xDim" noResource="true"/>
       </Properties>
     </Component>
     <Component class="javax.swing.JSpinner" name="ySpinner">
       <Properties>
+        <Property name="toolTipText" type="java.lang.String" value="input height of the grid"/>
         <Property name="name" type="java.lang.String" value="yDim" noResource="true"/>
       </Properties>
     </Component>
@@ -143,6 +199,7 @@
           <Color blue="33" green="33" red="33" type="rgb"/>
         </Property>
         <Property name="text" type="java.lang.String" value="POST"/>
+        <Property name="toolTipText" type="java.lang.String" value="click to confirm dimensions of the grid"/>
         <Property name="name" type="java.lang.String" value="postDim" noResource="true"/>
       </Properties>
     </Component>
@@ -165,6 +222,7 @@
             <Property name="lineWrap" type="boolean" value="true"/>
             <Property name="rows" type="int" value="5"/>
             <Property name="text" type="java.lang.String" value="Set the initial pattern by providing coordinates of live cells."/>
+            <Property name="toolTipText" type="java.lang.String" value=""/>
             <Property name="name" type="java.lang.String" value="consoleOutput" noResource="true"/>
           </Properties>
         </Component>
@@ -172,6 +230,7 @@
     </Container>
     <Component class="javax.swing.JTextField" name="consoleInput">
       <Properties>
+        <Property name="toolTipText" type="java.lang.String" value="input coordinates of live cells as x y"/>
         <Property name="name" type="java.lang.String" value="consoleInput" noResource="true"/>
       </Properties>
     </Component>
@@ -184,6 +243,7 @@
           <Color blue="33" green="33" red="33" type="rgb"/>
         </Property>
         <Property name="text" type="java.lang.String" value="POST"/>
+        <Property name="toolTipText" type="java.lang.String" value="click to confirm coordinates"/>
         <Property name="enabled" type="boolean" value="false"/>
         <Property name="name" type="java.lang.String" value="consolePost" noResource="true"/>
       </Properties>
@@ -197,6 +257,7 @@
           <Color blue="33" green="33" red="33" type="rgb"/>
         </Property>
         <Property name="text" type="java.lang.String" value="START"/>
+        <Property name="toolTipText" type="java.lang.String" value="click to start simulation"/>
         <Property name="enabled" type="boolean" value="false"/>
         <Property name="name" type="java.lang.String" value="startSim" noResource="true"/>
       </Properties>
@@ -250,6 +311,7 @@
           <Color blue="33" green="33" red="33" type="rgb"/>
         </Property>
         <Property name="text" type="java.lang.String" value="STOP"/>
+        <Property name="toolTipText" type="java.lang.String" value="click to stop simulation"/>
         <Property name="enabled" type="boolean" value="false"/>
       </Properties>
       <Events>
@@ -264,6 +326,27 @@
     <Component class="javax.swing.JLabel" name="frameNumber">
       <Properties>
         <Property name="text" type="java.lang.String" value="0"/>
+      </Properties>
+    </Component>
+    <Container class="javax.swing.JScrollPane" name="jScrollPane5">
+      <AuxValues>
+        <AuxValue name="autoScrollPane" type="java.lang.Boolean" value="true"/>
+      </AuxValues>
+
+      <Layout class="org.netbeans.modules.form.compat2.layouts.support.JScrollPaneSupportLayout"/>
+      <SubComponents>
+        <Component class="javax.swing.JTable" name="examplesTable">
+          <Properties>
+            <Property name="model" type="javax.swing.table.TableModel" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
+              <Connection code="new javax.swing.table.DefaultTableModel(&#xa;    new Object [][] {&#xa;        {&quot;Edge shooter&quot;, &quot;https://conwaylife.com/ref/lexicon/lex_e.htm#edgeshooter&quot;},&#xa;        {&quot;Cthulhu&quot;, &quot;https://conwaylife.com/wiki/Cthulhu&quot;},&#xa;        {&quot;Die hard&quot;, &quot;https://conwaylife.com/wiki/Die_hard&quot;},&#xa;        {&quot;Phoenix&quot;, &quot;https://conwaylife.com/wiki/Phoenix&quot;},&#xa;        {&quot;Noah&apos;s ark&quot;, &quot;https://conwaylife.com/wiki/Noah%27s_ark&quot;},&#xa;        {&quot;Snail&quot;, &quot;https://conwaylife.com/wiki/Snail&quot;},&#xa;        {&quot;Ants&quot;, &quot;https://conwaylife.com/wiki/Ants&quot;},&#xa;        {&quot;Anti-glider&quot;, &quot;https://conwaylife.com/wiki/Anti-glider&quot;}&#xa;    },&#xa;    new String [] {&#xa;        &quot;Name&quot;, &quot;Link&quot;&#xa;    }&#xa;)" type="code"/>
+            </Property>
+          </Properties>
+        </Component>
+      </SubComponents>
+    </Container>
+    <Component class="javax.swing.JLabel" name="jLabel1">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="Examples of structures"/>
       </Properties>
     </Component>
   </SubComponents>

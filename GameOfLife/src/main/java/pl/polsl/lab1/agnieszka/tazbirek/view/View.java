@@ -8,6 +8,7 @@ import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
 import java.util.ArrayList;
+import javax.swing.tree.DefaultMutableTreeNode;
 import pl.polsl.lab1.agnieszka.tazbirek.exception.InvalidDimensionsException;
 
 import pl.polsl.lab1.agnieszka.tazbirek.model.Cell;
@@ -66,6 +67,8 @@ public class View extends javax.swing.JFrame
         grid.setEditable(false);
         consoleInput.setEnabled(false);
         
+        examplesTable.setDefaultEditor(Object.class, null); //makes it not editable
+        
         dimensionsPost.setActionCommand("dimensionsPosted");
         dimensionsPost.addActionListener(this);
         dimensionsPost.setMnemonic(KeyEvent.VK_D); /** as in dimensions */
@@ -73,7 +76,8 @@ public class View extends javax.swing.JFrame
         consolePost.setActionCommand("xyPosted");
         consolePost.addActionListener(this);
         consolePost.setMnemonic(KeyEvent.VK_C); /** as in coordinates */
-        
+        //consoleInput.setMnemonic(KeyEvent.VK_UP); //?
+                
         startSim.setActionCommand("simStarted");
         startSim.addActionListener(this);
         startSim.setMnemonic(KeyEvent.VK_S); /** as in start */
@@ -228,6 +232,9 @@ public class View extends javax.swing.JFrame
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jSlider1 = new javax.swing.JSlider();
+        jScrollPane4 = new javax.swing.JScrollPane();
+        jTable1 = new javax.swing.JTable();
         xSpinner = new javax.swing.JSpinner();
         ySpinner = new javax.swing.JSpinner();
         dimensionsPost = new javax.swing.JButton();
@@ -244,6 +251,22 @@ public class View extends javax.swing.JFrame
         stopSim = new javax.swing.JButton();
         frameLabel = new javax.swing.JLabel();
         frameNumber = new javax.swing.JLabel();
+        jScrollPane5 = new javax.swing.JScrollPane();
+        examplesTable = new javax.swing.JTable();
+        jLabel1 = new javax.swing.JLabel();
+
+        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
+            },
+            new String [] {
+                "Title 1", "Title 2", "Title 3", "Title 4"
+            }
+        ));
+        jScrollPane4.setViewportView(jTable1);
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("The Game Of Life");
@@ -252,13 +275,16 @@ public class View extends javax.swing.JFrame
         setFont(new java.awt.Font("Cambria", 3, 10)); // NOI18N
         setResizable(false);
 
+        xSpinner.setToolTipText("input width of the grid");
         xSpinner.setName("xDim"); // NOI18N
 
+        ySpinner.setToolTipText("input height of the grid");
         ySpinner.setName("yDim"); // NOI18N
 
         dimensionsPost.setBackground(new java.awt.Color(204, 255, 255));
         dimensionsPost.setForeground(new java.awt.Color(51, 51, 51));
         dimensionsPost.setText("POST");
+        dimensionsPost.setToolTipText("click to confirm dimensions of the grid");
         dimensionsPost.setName("postDim"); // NOI18N
 
         consoleOutput.setBackground(new java.awt.Color(255, 204, 255));
@@ -267,20 +293,24 @@ public class View extends javax.swing.JFrame
         consoleOutput.setLineWrap(true);
         consoleOutput.setRows(5);
         consoleOutput.setText("Set the initial pattern by providing coordinates of live cells.");
+        consoleOutput.setToolTipText("");
         consoleOutput.setName("consoleOutput"); // NOI18N
         jScrollPane1.setViewportView(consoleOutput);
 
+        consoleInput.setToolTipText("input coordinates of live cells as x y");
         consoleInput.setName("consoleInput"); // NOI18N
 
         consolePost.setBackground(new java.awt.Color(204, 255, 255));
         consolePost.setForeground(new java.awt.Color(51, 51, 51));
         consolePost.setText("POST");
+        consolePost.setToolTipText("click to confirm coordinates");
         consolePost.setEnabled(false);
         consolePost.setName("consolePost"); // NOI18N
 
         startSim.setBackground(new java.awt.Color(204, 255, 255));
         startSim.setForeground(new java.awt.Color(51, 51, 51));
         startSim.setText("START");
+        startSim.setToolTipText("click to start simulation");
         startSim.setEnabled(false);
         startSim.setName("startSim"); // NOI18N
 
@@ -301,6 +331,7 @@ public class View extends javax.swing.JFrame
         stopSim.setBackground(new java.awt.Color(204, 255, 255));
         stopSim.setForeground(new java.awt.Color(51, 51, 51));
         stopSim.setText("STOP");
+        stopSim.setToolTipText("click to stop simulation");
         stopSim.setEnabled(false);
         stopSim.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -312,42 +343,72 @@ public class View extends javax.swing.JFrame
 
         frameNumber.setText("0");
 
+        examplesTable.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {"Edge shooter", "https://conwaylife.com/ref/lexicon/lex_e.htm#edgeshooter"},
+                {"Cthulhu", "https://conwaylife.com/wiki/Cthulhu"},
+                {"Die hard", "https://conwaylife.com/wiki/Die_hard"},
+                {"Phoenix", "https://conwaylife.com/wiki/Phoenix"},
+                {"Noah's ark", "https://conwaylife.com/wiki/Noah%27s_ark"},
+                {"Snail", "https://conwaylife.com/wiki/Snail"},
+                {"Ants", "https://conwaylife.com/wiki/Ants"},
+                {"Anti-glider", "https://conwaylife.com/wiki/Anti-glider"}
+            },
+            new String [] {
+                "Name", "Link"
+            }
+        ));
+        jScrollPane5.setViewportView(examplesTable);
+
+        jLabel1.setText("Examples of structures");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
             .addGroup(layout.createSequentialGroup()
                 .addGap(21, 21, 21)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 229, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(frameLabel)
-                        .addGap(18, 18, 18)
-                        .addComponent(frameNumber)))
-                .addGap(25, 25, 25)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addGap(0, 0, Short.MAX_VALUE)
-                        .addComponent(dimensionsPost, javax.swing.GroupLayout.PREFERRED_SIZE, 89, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addComponent(xLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 15, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(xSpinner, javax.swing.GroupLayout.PREFERRED_SIZE, 97, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(44, 44, 44)
-                        .addComponent(yLabel, javax.swing.GroupLayout.DEFAULT_SIZE, 31, Short.MAX_VALUE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(ySpinner, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(instruction, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(startSim)
-                            .addComponent(consoleInput, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(44, 44, 44)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(consolePost, javax.swing.GroupLayout.DEFAULT_SIZE, 85, Short.MAX_VALUE)
-                            .addComponent(stopSim, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                        .addGap(0, 0, Short.MAX_VALUE))
-                    .addComponent(jScrollPane1))
+                            .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 229, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(frameLabel)
+                                .addGap(18, 18, 18)
+                                .addComponent(frameNumber)))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(20, 20, 20)
+                                .addComponent(instruction, javax.swing.GroupLayout.DEFAULT_SIZE, 307, Short.MAX_VALUE))
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(12, 12, 12)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(startSim)
+                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                        .addGroup(layout.createSequentialGroup()
+                                            .addComponent(consoleInput, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                            .addComponent(consolePost, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                        .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 301, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
+                                            .addGap(6, 6, 6)
+                                            .addComponent(xLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 15, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                            .addComponent(xSpinner, javax.swing.GroupLayout.PREFERRED_SIZE, 97, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addGap(70, 70, 70)
+                                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                                .addComponent(dimensionsPost, javax.swing.GroupLayout.PREFERRED_SIZE, 89, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                .addGroup(layout.createSequentialGroup()
+                                                    .addComponent(yLabel)
+                                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                                    .addComponent(ySpinner, javax.swing.GroupLayout.PREFERRED_SIZE, 97, javax.swing.GroupLayout.PREFERRED_SIZE))))))
+                                .addGap(0, 0, Short.MAX_VALUE))))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                            .addComponent(stopSim, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jScrollPane5, javax.swing.GroupLayout.DEFAULT_SIZE, 542, Short.MAX_VALUE)
+                            .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addGap(14, 14, 14)))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -355,34 +416,42 @@ public class View extends javax.swing.JFrame
             .addGroup(layout.createSequentialGroup()
                 .addGap(22, 22, 22)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(frameLabel)
-                        .addComponent(frameNumber))
-                    .addComponent(instruction, javax.swing.GroupLayout.Alignment.TRAILING))
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(7, 7, 7)
+                        .addComponent(instruction)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(ySpinner, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(yLabel)
-                            .addComponent(xSpinner, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(xLabel))
+                            .addComponent(ySpinner, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(dimensionsPost)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGap(18, 18, 18)
                         .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(consoleInput, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(consolePost, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(18, 18, 18)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(startSim)
-                            .addComponent(stopSim)))
+                            .addComponent(stopSim)
+                            .addComponent(startSim)))
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(8, 8, 8)
-                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 243, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(frameLabel)
+                            .addComponent(frameNumber))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                    .addComponent(xSpinner, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(xLabel)))
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(8, 8, 8)
+                                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 278, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jLabel1)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane5, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18))
         );
 
         pack();
@@ -398,12 +467,18 @@ public class View extends javax.swing.JFrame
     private javax.swing.JTextArea consoleOutput;
     private javax.swing.JButton consolePost;
     private javax.swing.JButton dimensionsPost;
+    private javax.swing.JTable examplesTable;
     private javax.swing.JLabel frameLabel;
     private javax.swing.JLabel frameNumber;
     private javax.swing.JTextArea grid;
     private javax.swing.JLabel instruction;
+    private javax.swing.JLabel jLabel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JScrollPane jScrollPane4;
+    private javax.swing.JScrollPane jScrollPane5;
+    private javax.swing.JSlider jSlider1;
+    private javax.swing.JTable jTable1;
     private javax.swing.JButton startSim;
     private javax.swing.JButton stopSim;
     private javax.swing.JLabel xLabel;
