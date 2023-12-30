@@ -1,0 +1,8 @@
+pl\polsl\gameoflife\model\Cell.class
+GridSetupServlet$DeadOrAlive.class
+GridSetupServlet.class
+StartingFormationServlet.class
+pl\polsl\gameoflife\resources\JakartaEE10Resource.class
+pl\polsl\gameoflife\model\Session.class
+pl\polsl\gameoflife\model\Grid.class
+pl\polsl\gameoflife\JakartaRestConfiguration.class
