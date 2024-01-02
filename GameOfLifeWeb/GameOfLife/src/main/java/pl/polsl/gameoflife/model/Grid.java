@@ -5,6 +5,7 @@
 package pl.polsl.gameoflife.model;
 import java.util.ArrayList;
 import java.util.stream.Stream;
+import pl.polsl.gameoflife.exception.InvalidDimensionsException;
 
 /**
  * Class representing games universe - two-dimensional grid of square cells.
@@ -123,10 +124,11 @@ public class Grid {
      * Sets dimensions for the grid.
      * @param width Width of the grid
      * @param height Height of the grid
+     * @throws pl.polsl.gameoflife.exception.InvalidDimensionsException when dimensions are lesser or equal 0
      */
-    public void setDims(int height, int width){
+    public void setDims(int height, int width) throws InvalidDimensionsException {
         if(height <= 0 || width <= 0){
-            ;
+            throw new InvalidDimensionsException("The Grid cannot have a dimension that has a value of 0 or less.");
         }
         this.Height = height;
         this.Width = width;

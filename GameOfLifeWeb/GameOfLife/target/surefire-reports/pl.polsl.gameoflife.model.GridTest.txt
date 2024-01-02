@@ -1,0 +1,4 @@
+-------------------------------------------------------------------------------
+Test set: pl.polsl.gameoflife.model.GridTest
+-------------------------------------------------------------------------------
+Tests run: 5, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.128 s - in pl.polsl.gameoflife.model.GridTest

@@ -12,10 +12,11 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import java.util.ArrayList;
+import pl.polsl.gameoflife.exception.InvalidDimensionsException;
 
 import pl.polsl.gameoflife.model.Cell;
 import pl.polsl.gameoflife.model.Grid;
-import  pl.polsl.gameoflife.model.Session;
+import pl.polsl.gameoflife.model.Session;
 
 /**
  *
@@ -53,8 +54,12 @@ public class GridSetupServlet extends HttpServlet {
             //scenario: setting up grids width and height
             Integer width = Integer.valueOf(request.getParameter("width"));
             Integer height = Integer.valueOf(request.getParameter("height"));
-
-            model.setDims(height, width);
+            
+            try{
+                model.setDims(height, width);
+            }catch(InvalidDimensionsException ide){
+                ;
+            }
         }
         catch(NumberFormatException ex){
             try {
@@ -62,8 +67,10 @@ public class GridSetupServlet extends HttpServlet {
                 model.setCellAlive(Integer.valueOf(request.getParameter("yPos")), Integer.valueOf(request.getParameter("xPos")), true);
                 sesh.setNoFrames(0);
             }catch(NumberFormatException exc){
-                //scenario: simulation step
-                ;
+                //either step clicked or site refreshed or wrong input
+                String doWeSimulate = request.getParameter("simulate");
+                if(doWeSimulate != null) //step clicked
+                    model.step();
             }
         }
         
@@ -101,8 +108,9 @@ public class GridSetupServlet extends HttpServlet {
             out.println("<body>");
             out.println("<h1>Servlet GridSetupServlet at " + request.getContextPath() + "</h1>");
             //out.println("<p>" + width + "x" + height + "</p>");
-            out.println("<p>Add live calls</p>");
+            out.println("frames: " + sesh.getNoFrames());
             out.println("<p style=\"font-family: Arial\">" + output + "</p>");
+            out.println("<p>Add live calls</p>");
             out.println("<form action=\"GridSetupServlet\" method=\"POST\">");
             out.println("x: ");
             out.println("<input name=\"xPos\" type=\"text\" value=\"1\" />");
@@ -114,7 +122,7 @@ public class GridSetupServlet extends HttpServlet {
             out.println("</html>");
             out.println("<p>or simulate</p>");
             out.println("<form action=\"GridSetupServlet\" method=\"POST\">");
-            out.println("<input type=\"submit\" value=\"Step\">");
+            out.println("<input type=\"submit\" name=\"simulate\" value=\"Step\">");
             out.println("</form>");
         }
     }
