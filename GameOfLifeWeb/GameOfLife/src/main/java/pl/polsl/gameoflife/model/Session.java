@@ -12,15 +12,15 @@ package pl.polsl.gameoflife.model;
 public class Session {
     /** Number of frames executed since the last start. */
     private Integer noFrames; 
-    /** Is simulation currently running. */
-    private boolean simulationRunning; 
+    
+    private Grid startingFormation;
     
     /**
      *  Zero-argument constructor 
      */
     public Session(){
         noFrames = 0;
-        simulationRunning = false;
+        startingFormation = new Grid(); //2check!
     }
     
     /**
@@ -39,19 +39,11 @@ public class Session {
         noFrames = frames;
     };
     
-    /**
-     * Sets simulationRunning field.
-     * @param newValue value that the simulationRunning field will be set to.
-     */
-    public void setSimulationRunning(boolean newValue){
-        simulationRunning = newValue;
+    public void setStartingFormation(Grid newFormation){
+        startingFormation = newFormation;
     };
     
-    /**
-     * Returns value of the simulationRunning field.
-     * @return value of the simulationRunning field
-     */
-    public boolean getSimulationRunning(){
-        return simulationRunning;
+    public Grid getStartingFormation(){
+        return startingFormation;
     };
 }

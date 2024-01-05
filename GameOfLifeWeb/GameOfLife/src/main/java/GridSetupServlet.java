@@ -3,6 +3,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
  */
 
+import jakarta.servlet.RequestDispatcher;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
@@ -12,6 +13,7 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import java.util.ArrayList;
+import java.util.Set;
 import pl.polsl.gameoflife.exception.InvalidDimensionsException;
 
 import pl.polsl.gameoflife.model.Cell;
@@ -30,12 +32,14 @@ public class GridSetupServlet extends HttpServlet {
     /**
      * Enum representing the state of a cell
      */
-    public enum DeadOrAlive{
+    private enum DeadOrAlive{
         /** means alive */
         x,
         /** means dead */
         o;
     }
+    
+    private ArrayList<String> erros = new ArrayList<String>(); //?
     
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -49,6 +53,9 @@ public class GridSetupServlet extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
                 response.setContentType("text/html;charset=UTF-8");
+                
+        //request.setAttribute("Grid", model);
+        //request.setAttribute("Session", sesh);
         
         try{
             //scenario: setting up grids width and height
@@ -69,8 +76,10 @@ public class GridSetupServlet extends HttpServlet {
             }catch(NumberFormatException exc){
                 //either step clicked or site refreshed or wrong input
                 String doWeSimulate = request.getParameter("simulate");
-                if(doWeSimulate != null) //step clicked
+                if(doWeSimulate != null){ //step clicked
+                    sesh.setNoFrames(sesh.getNoFrames()+1);
                     model.step();
+                }
             }
         }
         
@@ -90,16 +99,15 @@ public class GridSetupServlet extends HttpServlet {
         
         for(int i = 0; i < deadAliveValues.size(); i++){
             int j = 0;
-            output += (i + (i < 10 ? "  " : " "));
+            output += (i + (i < 10 ? "&nbsp&nbsp" : "&nbsp"));
             for(DeadOrAlive state : deadAliveValues.get(i)){
-                output += (" " + state.toString() + (j > 9? "  " : " "));
+                output += (" " + state.toString() + (j > 9? "&nbsp&nbsp" : "&nbsp"));
                 j++;
             }
             output += ("<br/>");
         }
         
         try (PrintWriter out = response.getWriter()) {
-            /* TODO output your page here. You may use following sample code. */
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
@@ -107,8 +115,6 @@ public class GridSetupServlet extends HttpServlet {
             out.println("</head>");
             out.println("<body>");
             out.println("<h1>Servlet GridSetupServlet at " + request.getContextPath() + "</h1>");
-            //out.println("<p>" + width + "x" + height + "</p>");
-            out.println("frames: " + sesh.getNoFrames());
             out.println("<p style=\"font-family: Arial\">" + output + "</p>");
             out.println("<p>Add live calls</p>");
             out.println("<form action=\"GridSetupServlet\" method=\"POST\">");
@@ -118,13 +124,22 @@ public class GridSetupServlet extends HttpServlet {
             out.println("<input name=\"yPos\" type=\"text\" value=\"1\" />");
             out.println("<input type=\"submit\" value=\"Start\">");
             out.println("</form>");
-            out.println("</body>");
-            out.println("</html>");
             out.println("<p>or simulate</p>");
+            
             out.println("<form action=\"GridSetupServlet\" method=\"POST\">");
             out.println("<input type=\"submit\" name=\"simulate\" value=\"Step\">");
             out.println("</form>");
+            
+            out.println("<form action=\"GridInfoServlet\" method=\"POST\">");
+            out.println("<input type=\"submit\" name=\"data\" value=\"Step\">");
+            out.println("</form>");
+            
+            out.println("</body>");
+            out.println("</html>");
         }
+        
+        RequestDispatcher reqDispatcher = request.getRequestDispatcher("GridInfoServlet.java");
+        reqDispatcher.forward(request, response);
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

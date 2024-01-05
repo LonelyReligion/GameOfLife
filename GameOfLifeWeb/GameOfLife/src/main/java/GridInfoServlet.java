@@ -10,13 +10,15 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import pl.polsl.gameoflife.model.Grid;
+import pl.polsl.gameoflife.model.Session;
 
 /**
  *
  * @author User
  */
-@WebServlet(urlPatterns = {"/StartingFormationServlet"})
-public class StartingFormationServlet extends HttpServlet {
+@WebServlet(urlPatterns = {"/GridInfoServlet"})
+public class GridInfoServlet extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -29,16 +31,25 @@ public class StartingFormationServlet extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        
+        Grid model = (Grid) request.getAttribute("Grid");
+        Session sesh = (Session) request.getAttribute("Session");
+        
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
             /* TODO output your page here. You may use following sample code. */
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet StartingFormationServlet</title>");            
+            out.println("<title>Servlet GridInfoServlet</title>");            
             out.println("</head>");
             out.println("<body>");
-            out.println("<h1>Servlet StartingFormationServlet at " + request.getContextPath() + "</h1>");
+            out.println("<h1>Servlet GridInfoServlet at " + request.getContextPath() + "</h1>");
+            out.println("<p>" + sesh.getNoFrames() + "</p>");
+            out.println("<form action=\"GridSetupServlet\" method=\"POST\">");
+            out.println("<input type=\"submit\" name=\"go back\" value=\"Step\">");
+            out.println("</form>");
+            
             out.println("</body>");
             out.println("</html>");
         }
