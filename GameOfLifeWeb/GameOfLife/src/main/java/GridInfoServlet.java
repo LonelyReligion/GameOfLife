@@ -48,43 +48,16 @@ public class GridInfoServlet extends HttpServlet {
             
             out.println("<p> Number of frames passed: " + getSession().getNoFrames() + "</p>");
             out.println("<h3>Starting formation:</h3>");
-            out.println("<p>" + gridToString(getSession().getStartingFormation()) + "</p>");
+            out.println("<p>" + getSession().getStartingFormation() + "</p>");
             
-            out.println("<form action=\"GridSetupServlet\" method=\"POST\">");
-            out.println("<input type=\"submit\" name=\"simulate\" value=\"Go back\">");
+            out.println("<form action=\"GridSetupServlet\" method=\"GET\">");
+            out.println("<input type=\"submit\" name=\"goBack\" value=\"Go back\">");
             out.println("</form>");
             
             out.println("</body>");
             out.println("</html>");
         }
     }
-    
-    private String gridToString(Grid grid){
-        String output = "&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp"; //non-breaking space entity
-        for(int j = 0; j < grid.getCells().get(0).size(); j++){
-            output += (j + "&nbsp&nbsp");
-        }
-        output += ("<br/>");
-        
-        ArrayList<ArrayList<GridSetupServlet.DeadOrAlive>> deadAliveValues = new ArrayList<>();
-        for(int i = 0; i < grid.getCells().size(); i++){
-            deadAliveValues.add(new ArrayList<>());
-            for(Cell c : grid.getCells().get(i)){
-                deadAliveValues.get(i).add(c.getAlive() ? GridSetupServlet.DeadOrAlive.x : GridSetupServlet.DeadOrAlive.o);
-            }
-        }
-        
-        for(int i = 0; i < deadAliveValues.size(); i++){
-            int j = 0;
-            output += (i + (i < 10 ? "&nbsp&nbsp&nbsp" : "&nbsp"));
-            for(GridSetupServlet.DeadOrAlive state : deadAliveValues.get(i)){
-                output += (" " + state.toString() + (j > 9? "&nbsp&nbsp&nbsp" : "&nbsp"));
-                j++;
-            }
-            output += ("<br/>");
-        }
-        return output;
-    };
     
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**

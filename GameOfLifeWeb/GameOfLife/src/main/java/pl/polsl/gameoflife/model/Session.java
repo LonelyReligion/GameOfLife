@@ -4,6 +4,8 @@
  */
 package pl.polsl.gameoflife.model;
 
+import java.util.ArrayList;
+
 /**
  * Class representing state of current instance of the Game.
  * @author Agnieszka Tażbirek
@@ -16,14 +18,14 @@ public class Session {
     /** Number of frames executed since the last start. */
     private Integer noFrames; 
     
-    private Grid startingFormation;
+    private String startingFormation;
     
     /**
      *  Zero-argument constructor 
      */
     private Session(){
         noFrames = 0;
-        startingFormation = new Grid(); //2check!
+        startingFormation = new String(); //2check!
     }
     
     /**
@@ -42,11 +44,11 @@ public class Session {
         noFrames = frames;
     };
     
-    public void setStartingFormation(Grid newFormation){
+    public void setStartingFormation(String newFormation){
         startingFormation = newFormation;
     };
     
-    public Grid getStartingFormation(){
+    public String getStartingFormation(){
         return startingFormation;
     };
     

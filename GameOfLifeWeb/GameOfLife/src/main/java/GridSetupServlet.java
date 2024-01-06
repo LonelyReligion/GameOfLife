@@ -39,8 +39,6 @@ public class GridSetupServlet extends HttpServlet {
         o;
     }
     
-    private ArrayList<String> erros = new ArrayList<String>(); //?
-    
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
@@ -53,35 +51,48 @@ public class GridSetupServlet extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
                 response.setContentType("text/html;charset=UTF-8");
-        
-        try{
-            //scenario: setting up grids width and height
-            Integer width = Integer.valueOf(request.getParameter("width"));
-            Integer height = Integer.valueOf(request.getParameter("height"));
-            try{
-                model.setDims(height, width);
-                getSession().setStartingFormation(model);
-            }catch(InvalidDimensionsException ide){
+                
+        boolean error1 = false;
+        boolean error2 = false;
+        boolean changeStartingFormation = false;
+        if(request.getParameter("goBack") != null){
                 ;
-            }
         }
-        catch(NumberFormatException ex){
-            try {
-                //scenario: setting the starting formation
-                model.setCellAlive(Integer.valueOf(request.getParameter("yPos")), Integer.valueOf(request.getParameter("xPos")), true);
-                getSession().setStartingFormation(model);
+        else if(request.getParameter("simulate") != null){ //step clicked
+            getSession().setNoFrames(getSession().getNoFrames()+1);
+            model.step();  
+        }else if(request.getParameter("formation")!=null) {
+            //scenario: setting the starting formation
+            try{
+                model.setCellAlive(Integer.parseInt(request.getParameter("yPos")), Integer.parseInt(request.getParameter("xPos")), true);
+                changeStartingFormation=true;
                 getSession().setNoFrames(0);
             }catch(NumberFormatException exc){
-                //either step clicked or site refreshed or wrong input
-                String doWeSimulate = request.getParameter("simulate");
-                if(doWeSimulate != null){ //step clicked
-                    getSession().setNoFrames(getSession().getNoFrames()+1);
-                    model.step();
+                error2 = true;
+            }
+        }else{
+            try{
+                //scenario: setting up grids width and height
+                Integer width = Integer.valueOf(request.getParameter("width"));
+                Integer height = Integer.valueOf(request.getParameter("height"));
+                request.removeAttribute("height");
+                request.removeAttribute("width");
+                try{
+                    model.setDims(height, width);
+                    getSession().setNoFrames(0);
+                }catch(InvalidDimensionsException ide){
+                    error1 = true;
                 }
+            }
+            catch(NumberFormatException ex){
+                error1 = true;
             }
         }
         
-        String output = gridToString(model);
+
+        request.setAttribute("simulate", null);
+        request.setAttribute("formation", null);
+
         
         try (PrintWriter out = response.getWriter()) {
             out.println("<!DOCTYPE html>");
@@ -91,25 +102,42 @@ public class GridSetupServlet extends HttpServlet {
             out.println("</head>");
             out.println("<body>");
             out.println("<h1>Servlet GridSetupServlet at " + request.getContextPath() + "</h1>");
-            out.println("<p style=\"font-family: Serif\">" + output + "</p>");
-            out.println("<p>Add live cells</p>");
-            out.println("<form action=\"GridSetupServlet\" method=\"POST\">");
-            out.println("x: ");
-            out.println("<input name=\"xPos\" type=\"text\" value=\"1\" />");
-            out.println(" y: ");
-            out.println("<input name=\"yPos\" type=\"text\" value=\"1\" />");
-            out.println("<input type=\"submit\" value=\"Start\">");
-            out.println("</form>");
-            out.println("<p>or simulate</p>");
             
-            out.println("<form action=\"GridSetupServlet\" method=\"POST\">");
-            out.println("<input type=\"submit\" name=\"simulate\" value=\"Step\">");
-            out.println("</form>");
-            out.println("<br/>");
-            out.println("<form action=\"GridInfoServlet\" method=\"POST\">");
-            out.println("<input type=\"submit\" name=\"data\" value=\"Data\">");
-            out.println("</form>");
-            
+            if(!error1 && !error2){
+                String output = gridToString(model);
+                if(changeStartingFormation){
+                    getSession().setStartingFormation(output);
+                }
+                
+                out.println("<p style=\"font-family: Serif\">" + output + "</p>");
+                out.println("<p>Add live cells</p>");
+
+                out.println("<form action=\"GridSetupServlet\" method=\"POST\">");
+                out.println("x: ");
+                out.println("<input name=\"xPos\" type=\"text\" value=\"\" />");
+                out.println(" y: ");
+                out.println("<input name=\"yPos\" type=\"text\" value=\"\" />");
+                out.println("<input type=\"submit\" name=\"formation\" value=\"Start\">");
+                out.println("</form>");
+
+                out.println("<p>or simulate</p>");
+
+                out.println("<form action=\"GridSetupServlet\" method=\"POST\">");
+                out.println("<input type=\"submit\" name=\"simulate\" value=\"Step\">");
+                out.println("</form>");
+
+                out.println("<br/>");
+
+                out.println("<form action=\"GridInfoServlet\" method=\"POST\">");
+                out.println("<input type=\"submit\" name=\"data\" value=\"Data\">");
+                out.println("</form>");
+            }else if(error1){
+                out.println("<h3>Invalid dimensions error</h3>");
+                out.println("<p>Go back and resubmit.</p>");
+            }else if(error2){
+                out.println("<h3>Invalid coordinates error</h3>");
+                out.println("<p>Go back and resubmit.</p>");
+            }
             out.println("</body>");
             out.println("</html>");
         }
