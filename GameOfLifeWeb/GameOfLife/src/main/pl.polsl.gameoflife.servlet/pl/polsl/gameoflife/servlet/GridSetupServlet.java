@@ -1,3 +1,5 @@
+package pl.polsl.gameoflife.servlet;
+
 /*
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
@@ -55,6 +57,7 @@ public class GridSetupServlet extends HttpServlet {
         boolean error1 = false;
         boolean error2 = false;
         boolean changeStartingFormation = false;
+
         if(request.getParameter("goBack") != null){
                 ;
         }
@@ -65,8 +68,14 @@ public class GridSetupServlet extends HttpServlet {
             //scenario: setting the starting formation
             try{
                 model.setCellAlive(Integer.parseInt(request.getParameter("yPos")), Integer.parseInt(request.getParameter("xPos")), true);
-                changeStartingFormation=true;
+                changeStartingFormation = true;
                 getSession().setNoFrames(0);
+   
+                Cookie yCookie = new Cookie("lastY", request.getParameter("yPos"));
+                response.addCookie(yCookie);
+                Cookie xCookie = new Cookie("lastX", request.getParameter("xPos"));
+                response.addCookie(xCookie);   
+               
             }catch(NumberFormatException exc){
                 error2 = true;
             }
@@ -93,6 +102,15 @@ public class GridSetupServlet extends HttpServlet {
         request.setAttribute("simulate", null);
         request.setAttribute("formation", null);
 
+        String lastValue = "Recently added: ";
+        Cookie[] cookies = request.getCookies();
+        if (cookies != null) {
+            for (Cookie cookie : cookies) {
+                if (cookie.getName().equals("lastX") || cookie.getName().equals("lastY")) {
+                     lastValue += " " + cookie.getValue();
+                }
+            }
+        }
         
         try (PrintWriter out = response.getWriter()) {
             out.println("<!DOCTYPE html>");
@@ -111,7 +129,7 @@ public class GridSetupServlet extends HttpServlet {
                 
                 out.println("<p style=\"font-family: Serif\">" + output + "</p>");
                 out.println("<p>Add live cells</p>");
-
+                out.println("<p>" + lastValue + "</p>");
                 out.println("<form action=\"GridSetupServlet\" method=\"POST\">");
                 out.println("x: ");
                 out.println("<input name=\"xPos\" type=\"text\" value=\"\" />");
