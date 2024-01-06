@@ -10,6 +10,9 @@ package pl.polsl.gameoflife.model;
  * @version 1.0
  */
 public class Session {
+    
+    private static Session instance;
+    
     /** Number of frames executed since the last start. */
     private Integer noFrames; 
     
@@ -18,7 +21,7 @@ public class Session {
     /**
      *  Zero-argument constructor 
      */
-    public Session(){
+    private Session(){
         noFrames = 0;
         startingFormation = new Grid(); //2check!
     }
@@ -46,4 +49,10 @@ public class Session {
     public Grid getStartingFormation(){
         return startingFormation;
     };
+    
+    public static synchronized Session getSession(){
+        if(instance == null)
+            instance = new Session();
+        return instance;
+    }
 }

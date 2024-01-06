@@ -10,8 +10,11 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import java.util.ArrayList;
+import pl.polsl.gameoflife.model.Cell;
 import pl.polsl.gameoflife.model.Grid;
 import pl.polsl.gameoflife.model.Session;
+import static pl.polsl.gameoflife.model.Session.getSession;
 
 /**
  *
@@ -32,9 +35,6 @@ public class GridInfoServlet extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         
-        Grid model = (Grid) request.getAttribute("Grid");
-        Session sesh = (Session) request.getAttribute("Session");
-        
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
             /* TODO output your page here. You may use following sample code. */
@@ -45,16 +45,47 @@ public class GridInfoServlet extends HttpServlet {
             out.println("</head>");
             out.println("<body>");
             out.println("<h1>Servlet GridInfoServlet at " + request.getContextPath() + "</h1>");
-            out.println("<p>" + sesh.getNoFrames() + "</p>");
+            
+            out.println("<p> Number of frames passed: " + getSession().getNoFrames() + "</p>");
+            out.println("<h3>Starting formation:</h3>");
+            out.println("<p>" + gridToString(getSession().getStartingFormation()) + "</p>");
+            
             out.println("<form action=\"GridSetupServlet\" method=\"POST\">");
-            out.println("<input type=\"submit\" name=\"go back\" value=\"Step\">");
+            out.println("<input type=\"submit\" name=\"simulate\" value=\"Go back\">");
             out.println("</form>");
             
             out.println("</body>");
             out.println("</html>");
         }
     }
-
+    
+    private String gridToString(Grid grid){
+        String output = "&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp"; //non-breaking space entity
+        for(int j = 0; j < grid.getCells().get(0).size(); j++){
+            output += (j + "&nbsp&nbsp");
+        }
+        output += ("<br/>");
+        
+        ArrayList<ArrayList<GridSetupServlet.DeadOrAlive>> deadAliveValues = new ArrayList<>();
+        for(int i = 0; i < grid.getCells().size(); i++){
+            deadAliveValues.add(new ArrayList<>());
+            for(Cell c : grid.getCells().get(i)){
+                deadAliveValues.get(i).add(c.getAlive() ? GridSetupServlet.DeadOrAlive.x : GridSetupServlet.DeadOrAlive.o);
+            }
+        }
+        
+        for(int i = 0; i < deadAliveValues.size(); i++){
+            int j = 0;
+            output += (i + (i < 10 ? "&nbsp&nbsp&nbsp" : "&nbsp"));
+            for(GridSetupServlet.DeadOrAlive state : deadAliveValues.get(i)){
+                output += (" " + state.toString() + (j > 9? "&nbsp&nbsp&nbsp" : "&nbsp"));
+                j++;
+            }
+            output += ("<br/>");
+        }
+        return output;
+    };
+    
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
      * Handles the HTTP <code>GET</code> method.
