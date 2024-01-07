@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<!-- Index page displays a message and input fields for setting dimensions of the board. -->
+<html>
+    <head>
+        <title>Start Page</title>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    </head>
+    <body>
+        <h1>Welcome!</h1>
+        <p>This site is designed for simulating Conway's Game of Life. I highly encourage you to familiarize yourself with it's rules beforehand </p><a href="https://en.wikipedia.org/wiki/Conway%27s_Game_of_Life">here!</a>
+
+        <p>Please specify size of the game field.</p>
+        <form action="GridSetupServlet" method="POST">
+            <input name="width" type="text" />
+            <input name="height" type="text" />
+            <input type="submit" value="Start">
+        </form>
+    </body>
+</html>
