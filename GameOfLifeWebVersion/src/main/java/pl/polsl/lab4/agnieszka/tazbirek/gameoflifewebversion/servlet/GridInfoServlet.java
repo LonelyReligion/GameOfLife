@@ -14,6 +14,11 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 import static pl.polsl.lab4.agnieszka.tazbirek.gameoflifewebversion.model.Session.getSession;
 
 /**
@@ -54,11 +59,40 @@ public class GridInfoServlet extends HttpServlet {
             out.println("<input type=\"submit\" name=\"goBack\" value=\"Go back\">");
             out.println("</form>");
             
+            out.println("<p>" + selectCOT() + "</p>");
             out.println("</body>");
             out.println("</html>");
         }
     }
     
+        public String selectCOT() {
+
+        try {
+            Class.forName("org.apache.derby.jdbc.ClientDriver");
+        } catch (ClassNotFoundException ex) {
+            String tmp = new String(" ");
+            return tmp;
+        }
+        // make a connection to DB
+        try ( Connection con = DriverManager.getConnection("jdbc:derby://localhost:1527/lab", "app", "app")) {
+            Statement statement = con.createStatement();
+            ResultSet rs = statement.executeQuery("SELECT * FROM COT");
+            String tmp = new String();
+            
+            // Przeglądamy otrzymane wyniki
+            tmp = "ID | Cells <br/>";
+            while (rs.next()) {
+                tmp += ("  " + rs.getInt("id") + "   " + rs.getString("totalLiveCells") + "<br/>");
+            }
+            tmp += "<br/>";
+            rs.close();
+            return tmp;
+        } catch (SQLException sqle) {
+            System.err.println(sqle.getMessage());
+        }
+        return " ";
+    };
+        
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
      * Handles the HTTP <code>GET</code> method.

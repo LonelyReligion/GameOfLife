@@ -35,6 +35,18 @@ public class Grid {
         
     };   
     
+    public int countAliveCells(){
+        int tmp = 0;
+        for(int i = 0; i < Height; i++){ 
+            for(int j = 0; j < Width; j++){
+               if(Cells.get(i).get(j).getAlive()){
+                   tmp += 1;
+               }
+            }
+        } 
+        return tmp;
+    };
+    
     /**
      * Two-argument constructor
      * @param height Height of the grid
