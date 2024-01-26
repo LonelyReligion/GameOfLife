@@ -19,6 +19,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import pl.polsl.lab4.agnieszka.tazbirek.gameoflifewebversion.exception.InvalidDimensionsException;
 
 import pl.polsl.lab4.agnieszka.tazbirek.gameoflifewebversion.model.Cell;
@@ -34,8 +36,19 @@ import static pl.polsl.lab4.agnieszka.tazbirek.gameoflifewebversion.model.Sessio
 public class GridSetupServlet extends HttpServlet {
     
     int LastLog = 0; /** to solve fetch last ID and increment */
+    Connection con;
     
     public GridSetupServlet(){
+        try {
+            Class.forName("org.apache.derby.jdbc.ClientDriver");
+        } catch (ClassNotFoundException ex) {
+            System.err.println("Class not found");
+        }
+        try {
+            con = DriverManager.getConnection("jdbc:derby://localhost:1527/lab", "app", "app");
+        } catch (SQLException ex) {
+            Logger.getLogger(GridSetupServlet.class.getName()).log(Level.SEVERE, null, ex);
+        }
         createLog();
         createTables();
     }
@@ -122,7 +135,7 @@ public class GridSetupServlet extends HttpServlet {
         request.setAttribute("simulate", null);
         request.setAttribute("formation", null);
 
-        String lastValue = "Recently added: ";
+        String lastValue = "Recently added (implemented with cookies): ";
         Cookie[] cookies = request.getCookies();
         if (cookies != null) {
             for (Cookie cookie : cookies) {
@@ -150,8 +163,8 @@ public class GridSetupServlet extends HttpServlet {
                 out.println("<p style=\"font-family: Serif\">" + output + "</p>");
                 out.println("<p>Add live cells</p>");
                 
-                out.println(selectData());
-                //out.println("<p>" + lastValue + "</p>");
+                out.println("<p>" + lastValue + "</p>");
+                
                 out.println("<form action=\"GridSetupServlet\" method=\"POST\">");
                 out.println("x: ");
                 out.println("<input name=\"xPos\" type=\"text\" value=\"\" />");
@@ -217,12 +230,6 @@ public class GridSetupServlet extends HttpServlet {
     
     private void createLog() {
         try {
-            Class.forName("org.apache.derby.jdbc.ClientDriver");
-        } catch (ClassNotFoundException ex) {
-            System.err.println("Class not found");
-        }
-        // make a connection to DB
-        try ( Connection con = DriverManager.getConnection("jdbc:derby://localhost:1527/lab", "app", "app")) {
             Statement statement = con.createStatement();
             statement.executeUpdate("CREATE TABLE Log "
                     + "(id INTEGER, x INTEGER, "
@@ -235,12 +242,6 @@ public class GridSetupServlet extends HttpServlet {
     
     private void createTables() {
         try {
-            Class.forName("org.apache.derby.jdbc.ClientDriver");
-        } catch (ClassNotFoundException ex) {
-            System.err.println("Class not found");
-        }
-        // make a connection to DB
-        try ( Connection con = DriverManager.getConnection("jdbc:derby://localhost:1527/lab", "app", "app")) {
             Statement statement = con.createStatement();
             statement.executeUpdate("CREATE TABLE COT " /** Cells over time */
                     + "(id INTEGER, totalLiveCells INTEGER )");
@@ -252,12 +253,6 @@ public class GridSetupServlet extends HttpServlet {
         
     private void insertData(int x, int y, String name) {
         try {
-            Class.forName("org.apache.derby.jdbc.ClientDriver");
-        } catch (ClassNotFoundException ex) {
-            System.err.println("Class not found");
-        }
-        // make a connection to DB
-        try ( Connection con = DriverManager.getConnection("jdbc:derby://localhost:1527/lab", "app", "app")) {
             Statement statement = con.createStatement();
             statement.executeUpdate("INSERT INTO " + name + " VALUES (" + LastLog + ", " + x + ", " + y + ")");
             System.out.println("Data inserted");
@@ -268,12 +263,6 @@ public class GridSetupServlet extends HttpServlet {
     
     private void insertData(int noCells) {
         try {
-            Class.forName("org.apache.derby.jdbc.ClientDriver");
-        } catch (ClassNotFoundException ex) {
-            System.err.println("Class not found");
-        }
-        // make a connection to DB
-        try ( Connection con = DriverManager.getConnection("jdbc:derby://localhost:1527/lab", "app", "app")) {
             Statement statement = con.createStatement();
             statement.executeUpdate("INSERT INTO COT VALUES (" + LastLog + ", " + noCells + ")");
             System.out.println("Data inserted");
@@ -281,47 +270,15 @@ public class GridSetupServlet extends HttpServlet {
             System.err.println(sqle.getMessage());
         }
     }
-    
-    public String selectData() {
-
-        try {
-            Class.forName("org.apache.derby.jdbc.ClientDriver");
-        } catch (ClassNotFoundException ex) {
-            String tmp = new String(" ");
-            return tmp;
-        }
-        // make a connection to DB
-        try ( Connection con = DriverManager.getConnection("jdbc:derby://localhost:1527/lab", "app", "app")) {
-            Statement statement = con.createStatement();
-            ResultSet rs = statement.executeQuery("SELECT * FROM Log");
-            String tmp = new String();
-            
-            // Przeglądamy otrzymane wyniki
-            tmp = "ID | X | Y <br/>";
-            while (rs.next()) {
-                tmp += (" " + rs.getInt("id") + "  " + rs.getString("x") + "  " + rs.getString("y") + "<br/>");
-            }
-            tmp += "<br/>";
-            rs.close();
-            return tmp;
-        } catch (SQLException sqle) {
-            System.err.println(sqle.getMessage());
-        }
-        return " ";
-    };
         
     @Override
     public void destroy(){ /** when is destructor used in servlets? */
-        try {
-            Class.forName("org.apache.derby.jdbc.ClientDriver");
-        } catch (ClassNotFoundException ex) {
-            System.err.println("Class not found");
-        }
         // make a connection to DB
-        try ( Connection con = DriverManager.getConnection("jdbc:derby://localhost:1527/lab", "app", "app")) {
+        try {
             Statement statement = con.createStatement();
             // Usuwamy dane z tabeli
             statement.executeUpdate("DROP Log");
+            statement.executeUpdate("DROP COT");
         } catch (SQLException sqle) {
             System.err.println(sqle.getMessage());
         }

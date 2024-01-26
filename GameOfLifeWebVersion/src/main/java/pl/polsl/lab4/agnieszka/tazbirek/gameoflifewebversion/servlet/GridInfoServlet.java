@@ -59,13 +59,35 @@ public class GridInfoServlet extends HttpServlet {
             out.println("<input type=\"submit\" name=\"goBack\" value=\"Go back\">");
             out.println("</form>");
             
-            out.println("<p>" + selectCOT() + "</p>");
+            out.println("<p>(implemented with database)<br/>" + selectCOT() + "</p>");
+            out.println("<br/>");
+            out.println("<p><br/>" + selectData() + "</p>");
             out.println("</body>");
             out.println("</html>");
         }
     }
     
-        public String selectCOT() {
+    public String selectData() {
+        try ( Connection con = DriverManager.getConnection("jdbc:derby://localhost:1527/lab", "app", "app")) {
+            Statement statement = con.createStatement();
+            ResultSet rs = statement.executeQuery("SELECT * FROM Log");
+            String tmp = new String();
+            
+            // Przeglądamy otrzymane wyniki
+            tmp = "(implemented with database)<br/> ID | X | Y <br/>";
+            while (rs.next()) {
+                tmp += (" " + rs.getInt("id") + "  " + rs.getString("x") + "  " + rs.getString("y") + "<br/>");
+            }
+            tmp += "<br/>";
+            rs.close();
+            return tmp;
+        } catch (SQLException sqle) {
+            System.err.println(sqle.getMessage());
+        }
+        return " ";
+    };
+        
+    public String selectCOT() {
 
         try {
             Class.forName("org.apache.derby.jdbc.ClientDriver");
