@@ -7,21 +7,23 @@ package pl.polsl.lab4.agnieszka.tazbirek.gameoflifewebversion.servlet;
 
 import java.io.IOException;
 import java.io.PrintWriter;
-import jakarta.servlet.ServletException;
-import jakarta.servlet.annotation.WebServlet;
-import jakarta.servlet.http.Cookie;
-import jakarta.servlet.http.HttpServlet;
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
 import java.sql.Connection;
 import java.sql.DriverManager;
-import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import pl.polsl.lab4.agnieszka.tazbirek.gameoflifewebversion.exception.InvalidDimensionsException;
+import jakarta.servlet.http.HttpSession;
+
+import jakarta.servlet.RequestDispatcher;
+import jakarta.servlet.ServletException;
+import jakarta.servlet.annotation.WebServlet;
+import jakarta.servlet.http.Cookie;
+import jakarta.servlet.http.HttpServlet;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 
 import pl.polsl.lab4.agnieszka.tazbirek.gameoflifewebversion.model.Cell;
 import pl.polsl.lab4.agnieszka.tazbirek.gameoflifewebversion.model.Grid;
@@ -78,6 +80,8 @@ public class GridSetupServlet extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
                 response.setContentType("text/html;charset=UTF-8");
+        String id = new String();
+        
         /** Invalid dimensions */
         boolean error1 = false;
         
@@ -86,7 +90,25 @@ public class GridSetupServlet extends HttpServlet {
         
         /** Do we need to change the starting formation in session */
         boolean changeStartingFormation = false;
-
+        
+        HttpSession session = request.getSession(); 
+        session.setAttribute("connection", con); 
+        if(id.isEmpty()){
+            id = session.getId();
+        } else if(!id.equals(session.getId())){
+                    // make a connection to DB
+            try {
+                Statement statement = con.createStatement();
+                // Usuwamy dane z tabeli
+                statement.executeUpdate("DROP Log");
+                statement.executeUpdate("DROP COT");
+                createLog();
+                createTables();
+            } catch (SQLException sqle) {
+                System.err.println(sqle.getMessage());
+            }
+        }
+                
         if(request.getParameter("goBack") != null){
                 ;
         }
@@ -271,18 +293,6 @@ public class GridSetupServlet extends HttpServlet {
         }
     }
         
-    @Override
-    public void destroy(){ /** when is destructor used in servlets? */
-        // make a connection to DB
-        try {
-            Statement statement = con.createStatement();
-            // Usuwamy dane z tabeli
-            statement.executeUpdate("DROP Log");
-            statement.executeUpdate("DROP COT");
-        } catch (SQLException sqle) {
-            System.err.println(sqle.getMessage());
-        }
-    }
         
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**

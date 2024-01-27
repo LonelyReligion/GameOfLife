@@ -14,11 +14,17 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.io.*; 
+import jakarta.servlet.*; 
+import jakarta.servlet.http.*; 
+import java.sql.Connection;
+
 import static pl.polsl.lab4.agnieszka.tazbirek.gameoflifewebversion.model.Session.getSession;
 
 /**
@@ -28,7 +34,9 @@ import static pl.polsl.lab4.agnieszka.tazbirek.gameoflifewebversion.model.Sessio
  */
 @WebServlet(urlPatterns = {"/GridInfoServlet"})
 public class GridInfoServlet extends HttpServlet {
-
+    Connection con;
+    String id = new String();
+    
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
@@ -41,6 +49,9 @@ public class GridInfoServlet extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         
+        HttpSession session = request.getSession(false); 
+        con = (Connection)session.getAttribute("connection");
+        
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
             out.println("<!DOCTYPE html>");
@@ -50,6 +61,8 @@ public class GridInfoServlet extends HttpServlet {
             out.println("</head>");
             out.println("<body>");
             out.println("<h1>Servlet GridInfoServlet at " + request.getContextPath() + "</h1>");
+            
+            out.println("<p>connection passed via HttpSession</p>");
             
             out.println("<p> Number of frames passed: " + getSession().getNoFrames() + "</p>");
             out.println("<h3>Starting formation:</h3>");
@@ -67,8 +80,8 @@ public class GridInfoServlet extends HttpServlet {
         }
     }
     
-    public String selectData() {
-        try ( Connection con = DriverManager.getConnection("jdbc:derby://localhost:1527/lab", "app", "app")) {
+    private String selectData() {
+        try {
             Statement statement = con.createStatement();
             ResultSet rs = statement.executeQuery("SELECT * FROM Log");
             String tmp = new String();
@@ -87,16 +100,8 @@ public class GridInfoServlet extends HttpServlet {
         return " ";
     };
         
-    public String selectCOT() {
-
+    private String selectCOT() {
         try {
-            Class.forName("org.apache.derby.jdbc.ClientDriver");
-        } catch (ClassNotFoundException ex) {
-            String tmp = new String(" ");
-            return tmp;
-        }
-        // make a connection to DB
-        try ( Connection con = DriverManager.getConnection("jdbc:derby://localhost:1527/lab", "app", "app")) {
             Statement statement = con.createStatement();
             ResultSet rs = statement.executeQuery("SELECT * FROM COT");
             String tmp = new String();
