@@ -14,5 +14,5 @@ Technologies: </br>
 - Swing
 - Papaya Server
 </br>
-Project was originally made for uni java class. With complete javadoc docummentation for the web version and unit tests.
+Project was originally made for university java class. With complete javadoc documentation for the web version and unit tests.
 
